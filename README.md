@@ -10,4 +10,6 @@
 
 ![image](https://user-images.githubusercontent.com/23722452/195184457-57badf44-6541-4d13-b8de-7cae761c0853.png)
 
+podział zadań
 
+<img src="https://user-images.githubusercontent.com/60778267/195276435-4c41eacb-1971-45a0-aec1-88efaf1f57ca.png" alt="drawing" width="500"/>
