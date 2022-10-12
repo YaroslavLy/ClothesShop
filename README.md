@@ -13,3 +13,7 @@
 podział zadań
 
 <img src="https://user-images.githubusercontent.com/60778267/195276435-4c41eacb-1971-45a0-aec1-88efaf1f57ca.png" alt="drawing" width="500"/>
+
+[karta_projektuvk.pdf](https://github.com/YaroslavLy/ClothesShop/files/9765125/karta_projektuvk.pdf)
+
+[karta_projektuvk.docx](https://github.com/YaroslavLy/ClothesShop/files/9765127/karta_projektuvk.docx)
