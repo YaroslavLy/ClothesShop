@@ -23,5 +23,6 @@ podział zadań
 
 [karta_projektuvk.docx](https://github.com/YaroslavLy/ClothesShop/files/9765127/karta_projektuvk.docx)
 
+## [⇈Do Nawigacji](#nawigacja)
 
 ## 19.10.2022
