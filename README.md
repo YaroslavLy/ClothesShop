@@ -1,8 +1,13 @@
 # ClothingStore
  Projekt zespołowy dyplomowy aplikacja Android
  <hr/>
+ 
+## Nawigacja
+* [12.10.2022](#12102022)
+* [19.10.2022](#19102022)
 
-12.10.2022 Lysanets Yaroslav add  list of products without uploading photos and without using the API
+## 12.10.2022
+Add  list of products without uploading photos and without using the API
 
 <img src="https://user-images.githubusercontent.com/60778267/195108073-999e4a2b-429b-4ab7-b081-1ba220995c5c.png" alt="drawing" width="200"/>
 
@@ -17,3 +22,6 @@ podział zadań
 [karta_projektuvk.pdf](https://github.com/YaroslavLy/ClothesShop/files/9765125/karta_projektuvk.pdf)
 
 [karta_projektuvk.docx](https://github.com/YaroslavLy/ClothesShop/files/9765127/karta_projektuvk.docx)
+
+
+## 19.10.2022
