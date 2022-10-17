@@ -1,7 +1,9 @@
 package com.example.clothesshop
 
-data class ProductViewModel(
-    val image: String? = "",
+import android.graphics.Bitmap
+
+data class ProductViewModelTrue(
+    val image: Bitmap,
     val name: String? = "",
     val price: String? = "",
     val code: String? = "",

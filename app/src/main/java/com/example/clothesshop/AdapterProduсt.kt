@@ -1,13 +1,22 @@
 package com.example.clothesshop
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterProduсt(private val mList: List<ProductViewModel>) : RecyclerView.Adapter<AdapterProduсt.ViewHolder>() {
+class AdapterProduсt(private val mList: List<ProductViewModel>,val context: Context) : RecyclerView.Adapter<AdapterProduсt.ViewHolder>() {
+
+    //val context: Context
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,15 +33,44 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) : RecyclerView.
 
         val ItemsViewModel = mList[position]
 
+
+
         // sets the image to the imageview from our itemHolder class
-        holder.imageView.setImageResource(ItemsViewModel.image)
+        //ItemsViewModel.image
+        //holder.imageView.setImageResource(ItemsViewModel.image)
 
         // sets the text to the textview from our itemHolder class
         //holder.textView.text = ItemsViewModel.text
+
         holder.textName.text=ItemsViewModel.name
         holder.textCode.text=ItemsViewModel.code
         holder.textPrice.text=ItemsViewModel.price
+        DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.image)
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    @Suppress("DEPRECATION")
+    private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
+        init {
+            Toast.makeText(context, "Please wait, it may take a few minute...",     Toast.LENGTH_SHORT).show()
+        }
+        override fun doInBackground(vararg urls: String): Bitmap? {
+            val imageURL = urls[0]
+            var image: Bitmap? = null
+            try {
+                val `in` = java.net.URL(imageURL).openStream()
+                image = BitmapFactory.decodeStream(`in`)
+            }
+            catch (e: Exception) {
+                Log.e("Error Message", e.message.toString())
+                e.printStackTrace()
+            }
+            return image
+        }
+        override fun onPostExecute(result: Bitmap?) {
+            imageView.setImageBitmap(result)
+        }
     }
 
     // return the number of the items in the list
@@ -43,9 +81,12 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) : RecyclerView.
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageview)
+
         //val textView: TextView = itemView.findViewById(R.id.textView)
         val textName: TextView = itemView.findViewById(R.id.textName)
         val textCode: TextView = itemView.findViewById(R.id.textCode)
         val textPrice: TextView = itemView.findViewById(R.id.textPrice)
+
+
     }
 }

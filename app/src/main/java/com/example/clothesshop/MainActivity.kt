@@ -2,36 +2,54 @@ package com.example.clothesshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
 
-        // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(this)
 
-        // ArrayList of class ItemsViewModel
         val data = ArrayList<ProductViewModel>()
 
-        // This loop will create 20 Views containing
-        // the image with the count of view
         var listProductViewModel=ProvideData.getData()
+        var mDataBase=FirebaseDatabase.getInstance().getReference("Products");
+        //var listProductViewModel=ProvideData.getDataBD(mDataBase)
 
         for (item in listProductViewModel) {
             //data.add(ProductViewModel(R.drawable.ic_baseline_shop_24, "Item " + i))
-            data.add(item)
+            //data.add(item)
+            //mDataBase.push().setValue(item)
+        }
+        val adapter = AdapterProduсt(data,this)
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataSn in dataSnapshot.children)
+                {
+                    var item = dataSn.getValue(ProductViewModel::class.java)
+                    if (item != null) {
+                        data.add(item)
+                    }
+                }
+                adapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+            }
         }
 
-        // This will pass the ArrayList to our Adapter
-        val adapter = AdapterProduсt(data)
+        mDataBase.addValueEventListener(postListener)
 
-        // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
     }
 }
