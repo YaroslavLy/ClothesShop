@@ -5,6 +5,7 @@
 ## Nawigacja
 * [12.10.2022](#12102022)
 * [19.10.2022](#19102022)
+* [Dokumentacja](#dokumentacja)
 
 ## 12.10.2022
 Add  list of products without uploading photos and without using the API
@@ -26,3 +27,12 @@ podział zadań
 ## [⇈Do Nawigacji](#nawigacja)
 
 ## 19.10.2022
+
+dodanie zdjęć
+
+<img src="https://user-images.githubusercontent.com/60778267/196235560-4e66dee3-4649-48f0-bc76-56096b624bf5.png" alt="drawing" width="200"/>
+
+## [⇈Do Nawigacji](#nawigacja)
+## Dokumentacja
+
+## [⇈Do Nawigacji](#nawigacja)
