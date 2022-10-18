@@ -37,4 +37,6 @@ https://www.figma.com/file/PCgwhUtoh8jljiULmbULvT/Untitled?node-id=0%3A1
 ## [⇈Do Nawigacji](#nawigacja)
 ## Dokumentacja
 
+[Dokumentacja_3.pdf](https://github.com/YaroslavLy/ClothesShop/blob/main/Dokumentacja_3.pdf)
+
 ## [⇈Do Nawigacji](#nawigacja)
