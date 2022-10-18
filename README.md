@@ -28,7 +28,7 @@ podział zadań
 
 ## 19.10.2022
 
-dodanie zdjęć
+dodanie zdjęć w app
 
 <img src="https://user-images.githubusercontent.com/60778267/196235560-4e66dee3-4649-48f0-bc76-56096b624bf5.png" alt="drawing" width="200"/>
 
