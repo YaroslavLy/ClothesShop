@@ -32,7 +32,18 @@ dodanie zdjęć w app
 
 <img src="https://user-images.githubusercontent.com/60778267/196235560-4e66dee3-4649-48f0-bc76-56096b624bf5.png" alt="drawing" width="200"/>
 
+design fragmenta listy produktów w figma 
 https://www.figma.com/file/PCgwhUtoh8jljiULmbULvT/Untitled?node-id=0%3A1
+
+<img src="https://user-images.githubusercontent.com/60778267/196622516-33ed66a6-ea86-47eb-9637-19879b855d87.png" width="200"/>
+
+stworzenie dazy danych firebase
+
+<img src="https://user-images.githubusercontent.com/60778267/196624170-351e7529-88b7-477b-ae43-1907ab8892d0.png" width="500"/>
+
+podział zadań
+
+<img src="https://user-images.githubusercontent.com/60778267/196625073-618dfbf7-759e-4efb-b969-0e71c472abb4.png" width="500"/>
 
 ## [⇈Do Nawigacji](#nawigacja)
 ## Dokumentacja
