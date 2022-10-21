@@ -14,7 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterProduсt(private val mList: List<ProductViewModel>,val context: Context) : RecyclerView.Adapter<AdapterProduсt.ViewHolder>() {
+class AdapterProduсt(private val mList: List<ProductViewModel>) :
+    RecyclerView.Adapter<AdapterProduсt.ViewHolder>() {
 
     //val context: Context
 
@@ -23,7 +24,7 @@ class AdapterProduсt(private val mList: List<ProductViewModel>,val context: Con
         // inflates the card_view_design view
         // that is used to hold list item
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_view_design, parent, false)
+            .inflate(R.layout.fragment_product, parent, false)
 
         return ViewHolder(view)
     }
@@ -53,7 +54,7 @@ class AdapterProduсt(private val mList: List<ProductViewModel>,val context: Con
     @Suppress("DEPRECATION")
     private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
         init {
-            Toast.makeText(context, "Please wait, it may take a few minute...",     Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Please wait, it may take a few minute...",     Toast.LENGTH_SHORT).show()
         }
         override fun doInBackground(vararg urls: String): Bitmap? {
             val imageURL = urls[0]
