@@ -44,7 +44,7 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) :
         //holder.textView.text = ItemsViewModel.text
 
         holder.textName.text=ItemsViewModel.name
-        holder.textCode.text=ItemsViewModel.code
+        //holder.textCode.text=ItemsViewModel.code
         holder.textPrice.text=ItemsViewModel.price
         DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.image)
 
@@ -85,7 +85,7 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) :
 
         //val textView: TextView = itemView.findViewById(R.id.textView)
         val textName: TextView = itemView.findViewById(R.id.textName)
-        val textCode: TextView = itemView.findViewById(R.id.textCode)
+       // val textCode: TextView = itemView.findViewById(R.id.textCode)
         val textPrice: TextView = itemView.findViewById(R.id.textPrice)
 
 
