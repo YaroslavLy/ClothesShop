@@ -1,7 +1,6 @@
 package com.example.clothesshop.ui.login
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -11,9 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.clothesshop.databinding.FragmentLoginBinding
@@ -21,6 +17,9 @@ import com.example.clothesshop.databinding.FragmentLoginBinding
 import com.example.clothesshop.R
 import com.example.clothesshop.data.LoginDataSource
 import com.example.clothesshop.data.LoginRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment() {
 
@@ -29,6 +28,8 @@ private var _binding: FragmentLoginBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +47,13 @@ private var _binding: FragmentLoginBinding? = null
 //        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
 //            .get(LoginViewModel::class.java)
 
+        auth = Firebase.auth
+
+        val currentUser = auth.currentUser
+        //currentUser
+        if(currentUser!=null){
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_productFragment)
+        }
         loginViewModel = LoginViewModel(loginRepository = LoginRepository(dataSource = LoginDataSource()))
 
         val usernameEditText = binding.username
@@ -75,7 +83,8 @@ private var _binding: FragmentLoginBinding? = null
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    updateUiWithUser(it)
+                    updateUiWithUser(it,view)
+
                 }
             })
 
@@ -113,15 +122,16 @@ private var _binding: FragmentLoginBinding? = null
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_productFragment)
+
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun updateUiWithUser(model: LoggedInUserView, view: View) {
         val welcome = getString(R.string.welcome) + model.displayName
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_productFragment)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

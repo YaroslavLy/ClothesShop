@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,9 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) :
         //holder.textCode.text=ItemsViewModel.code
         holder.textPrice.text=ItemsViewModel.price
         DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.image)
+        holder.linearLayout.setOnClickListener{
+            Log.i("tag","Hice")
+        }
 
     }
 
@@ -87,6 +91,7 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) :
         val textName: TextView = itemView.findViewById(R.id.textName)
        // val textCode: TextView = itemView.findViewById(R.id.textCode)
         val textPrice: TextView = itemView.findViewById(R.id.textPrice)
+        val linearLayout: LinearLayout = itemView.findViewById(R.id.linearLayout)
 
 
     }
