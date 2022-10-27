@@ -1,9 +1,12 @@
 package com.example.clothesshop.data
 
+import android.util.Log
 import com.example.clothesshop.data.model.LoggedInUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import java.io.IOException
 
 /**
@@ -11,15 +14,13 @@ import java.io.IOException
  */
 class LoginDataSource {
     private lateinit var auth: FirebaseAuth
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend  fun  login(username: String, password: String): Result<LoggedInUser> {
         try {
             auth = Firebase.auth
-            // TODO: handle loggedInUser authentication
-            //val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
             auth.signInWithEmailAndPassword(username,password)
+            delay(1000L)
             val user= auth.currentUser
-            //val fakeUser = LoggedInUser()
-            if(user!= null) {
+            if(user != null) {
                 return Result.Success(
                     LoggedInUser(
                         user.uid,

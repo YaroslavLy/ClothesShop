@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,15 +21,23 @@ import com.example.clothesshop.data.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
-private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentLoginBinding? = null
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private val job = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
 
     override fun onCreateView(
@@ -37,8 +46,8 @@ private var _binding: FragmentLoginBinding? = null
         savedInstanceState: Bundle?
     ): View? {
 
-      _binding = FragmentLoginBinding.inflate(inflater, container, false)
-      return binding.root
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
 
     }
 
@@ -51,10 +60,13 @@ private var _binding: FragmentLoginBinding? = null
 
         val currentUser = auth.currentUser
         //currentUser
-        if(currentUser!=null){
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_productFragment)
+        if (currentUser != null) {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_loginFragment2_to_productFragment)
+
         }
-        loginViewModel = LoginViewModel(loginRepository = LoginRepository(dataSource = LoginDataSource()))
+        loginViewModel =
+            LoginViewModel(loginRepository = LoginRepository(dataSource = LoginDataSource()))
 
         val usernameEditText = binding.username
         val passwordEditText = binding.password
@@ -83,7 +95,7 @@ private var _binding: FragmentLoginBinding? = null
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    updateUiWithUser(it,view)
+                    updateUiWithUser(it, view)
 
                 }
             })
@@ -106,22 +118,28 @@ private var _binding: FragmentLoginBinding? = null
         }
         usernameEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.addTextChangedListener(afterTextChangedListener)
+
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                uiScope.launch(Dispatchers.IO) {
+                    loginViewModel.login(
+                        usernameEditText.text.toString(),
+                        passwordEditText.text.toString()
+                    )
+                }
+            }
+            false
+        }
+
+
+        loginButton.setOnClickListener {
+            loadingProgressBar.visibility = View.VISIBLE
+            uiScope.launch(Dispatchers.IO) {
                 loginViewModel.login(
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
             }
-            false
-        }
-
-        loginButton.setOnClickListener {
-            loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(
-                usernameEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
 
         }
     }
@@ -139,7 +157,7 @@ private var _binding: FragmentLoginBinding? = null
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
 
-override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
