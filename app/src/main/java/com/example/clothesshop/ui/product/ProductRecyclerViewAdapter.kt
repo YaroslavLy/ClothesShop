@@ -1,7 +1,6 @@
-package com.example.clothesshop
+package com.example.clothesshop.ui.product
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -12,11 +11,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clothesshop.R
 
-class AdapterProduсt(private val mList: List<ProductViewModel>) :
-    RecyclerView.Adapter<AdapterProduсt.ViewHolder>() {
+class ProductRecyclerViewAdapter(private val mList: List<ProductView>) :
+    RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>() {
 
     //val context: Context
 
@@ -34,8 +33,6 @@ class AdapterProduсt(private val mList: List<ProductViewModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val ItemsViewModel = mList[position]
-
-
 
         // sets the image to the imageview from our itemHolder class
         //ItemsViewModel.image

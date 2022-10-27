@@ -1,25 +1,24 @@
-package com.example.clothesshop
+package com.example.clothesshop.ui.product
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clothesshop.R
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.Observer
 
 class ProductFragment: Fragment() {
 
     private var columnCount = 2
+    private lateinit var productViewModel: ProductViewModel
+    private var data = ArrayList<ProductView>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +35,7 @@ class ProductFragment: Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId==R.id.menu_logout)
+        if(item.itemId== R.id.menu_logout)
         {
             Firebase.auth.signOut()
             this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
@@ -50,63 +49,47 @@ class ProductFragment: Fragment() {
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//
         val view = inflater.inflate(R.layout.fragment_product_list, container, false)
-        //val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
+        //recyclerview.adapter = adapter
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        productViewModel= ProductViewModel("Products")
 
 
-        //recyclerview.layoutManager = LinearLayoutManager(this)
-
-        val data = ArrayList<ProductViewModel>()
-
-        //var listProductViewModel = ProvideData.getData()
-        var mDataBase = FirebaseDatabase.getInstance().getReference("Products");
-        //var listProductViewModel=ProvideData.getDataBD(mDataBase)
-
-        //for (item in listProductViewModel) {
-            //data.add(ProductViewModel(R.drawable.ic_baseline_shop_24, "Item " + i))
-            //data.add(item)
-            //mDataBase.push().setValue(item)
-        //}
-        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = AdapterProduсt(data)//MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
-        }
-        //adapter =
-
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (dataSn in dataSnapshot.children) {
-                    var item = dataSn.getValue(ProductViewModel::class.java)
-                    if (item != null) {
-                        data.add(item)
-                        Log.i("tag1",item.code.toString())
-                    }
-                }
-
-                if (view is RecyclerView) {
-                    with(view) {
-                        adapter?.notifyDataSetChanged() //adapter = AdapterProduсt(data)//MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
-                    }
-                }
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+                adapter = ProductRecyclerViewAdapter(data)
             }
         }
 
-        mDataBase.addValueEventListener(postListener)
+        productViewModel.getProducts()
+        productViewModel.productFormState.observe(viewLifecycleOwner, Observer {
+                productFormState ->
+            if(productFormState==null){
+                return@Observer
+            }
+            productFormState?.let {
+                updateUiWithProduct(it,view)
+            }
 
-        //recyclerview.adapter = adapter
+        })
+    }
 
-        return view
+    private fun updateUiWithProduct(product: ProductView, view: View) {
+        data.add(product)
+
+        if (view is RecyclerView) {
+            with(view) {
+                adapter?.notifyDataSetChanged()
+            }
+        }
     }
 
     companion object {
