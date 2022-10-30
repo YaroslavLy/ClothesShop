@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
         //currentUser
         if (currentUser != null) {
             Navigation.findNavController(view)
-                .navigate(R.id.action_loginFragment2_to_productFragment)
+                .navigate(R.id.action_loginFragment2_to_categoryFragment)
 
         }
         loginViewModel =
@@ -149,7 +149,7 @@ class LoginFragment : Fragment() {
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
-        Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_productFragment)
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_categoryFragment)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
