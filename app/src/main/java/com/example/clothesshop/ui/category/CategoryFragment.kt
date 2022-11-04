@@ -12,22 +12,25 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
+import com.example.clothesshop.model.Category
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 
 
 class CategoryFragment : Fragment() {
 
-
+    private val uiScope = CoroutineScope(Dispatchers.Main)
     private var count=0
 
     private lateinit var categoryViewModel: CategoryViewModel
-    private var listCategory = mutableListOf<CategoryView>()
+    private var listCategory = mutableListOf<Category>()
     private var _binding: FragmentCategoryBinding? = null
 
     // This property is only valid between onCreateView and
@@ -64,8 +67,15 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoryViewModel= CategoryViewModel("Categories")
-        categoryViewModel.getCategories()
+        categoryViewModel =
+            ViewModelProvider(
+                this,
+                CategoryViewModelFactory()
+            )[CategoryViewModel::class.java]
+
+        //CategoryViewModel("Categories")
+        //categoryViewModel.getCategories()
+
         categoryViewModel.categoryFormState.observe(viewLifecycleOwner, Observer {
             categoryFromState ->
             if(categoryFromState == null)
@@ -78,9 +88,8 @@ class CategoryFragment : Fragment() {
             }
         })
 
-
-
     }
+
 
     private fun updateUiWithCategories(view: View)
     {

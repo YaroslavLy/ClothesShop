@@ -4,25 +4,22 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.R
-import com.example.clothesshop.ui.product.ProductFragment
-import com.example.clothesshop.ui.product.ProductRecyclerViewAdapter
-import com.example.clothesshop.ui.product.ProductView
-import com.example.clothesshop.ui.product.ProductViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.example.clothesshop.model.Type
+import com.example.clothesshop.ui.category.CategoryViewModel
+import com.example.clothesshop.ui.category.CategoryViewModelFactory
 
 
 class TypeFragment : Fragment() {
     private var columnCount = 3
     private lateinit var typeViewModel: TypeViewModel
-    private var data = ArrayList<TypeView>()
+    private var data = ArrayList<Type>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +48,12 @@ class TypeFragment : Fragment() {
         val args: TypeFragmentArgs by navArgs()
         val type =  args.arg
 
-        typeViewModel= TypeViewModel("Categories/Types/$type")
+        typeViewModel=
+            ViewModelProvider(
+                this,
+                TypeViewModelFactory(type)
+            )[TypeViewModel::class.java]
+        //TypeViewModel(type)
 
 
         if (view is RecyclerView) {
@@ -60,11 +62,11 @@ class TypeFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, 3)
                 }
-                adapter = TypeRecyclerViewAdapter(data)
+                adapter = TypeRecyclerViewAdapter(data,view)
             }
         }
 
-        typeViewModel.getTypes()
+        //typeViewModel.getTypes()
         typeViewModel.typeFormState.observe(viewLifecycleOwner, Observer {
                 typeFormState ->
             if(typeFormState==null){
@@ -77,7 +79,7 @@ class TypeFragment : Fragment() {
         })
     }
 
-    private fun updateUiWithProduct(product: TypeView, view: View) {
+    private fun updateUiWithProduct(product: Type, view: View) {
         data.add(product)
 
         if (view is RecyclerView) {

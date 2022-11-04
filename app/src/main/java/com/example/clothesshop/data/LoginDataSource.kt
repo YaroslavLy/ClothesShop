@@ -1,11 +1,10 @@
 package com.example.clothesshop.data
 
-import android.util.Log
-import com.example.clothesshop.data.model.LoggedInUser
+
+import com.example.clothesshop.model.LoggedInUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import java.io.IOException
 

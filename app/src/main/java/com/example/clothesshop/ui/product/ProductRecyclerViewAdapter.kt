@@ -13,8 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.R
+import com.example.clothesshop.model.Product
 
-class ProductRecyclerViewAdapter(private val mList: List<ProductView>) :
+class ProductRecyclerViewAdapter(private val mList: List<Product>) :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>() {
 
     //val context: Context

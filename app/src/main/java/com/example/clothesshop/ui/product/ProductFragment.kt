@@ -12,12 +12,16 @@ import com.example.clothesshop.R
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.clothesshop.model.Product
+import com.example.clothesshop.ui.category.CategoryViewModel
+import com.example.clothesshop.ui.category.CategoryViewModelFactory
 
 class ProductFragment: Fragment() {
 
     private var columnCount = 2
     private lateinit var productViewModel: ProductViewModel
-    private var data = ArrayList<ProductView>()
+    private var data = ArrayList<Product>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +59,13 @@ class ProductFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        productViewModel= ProductViewModel("Products")
+        super.onViewCreated(view, savedInstanceState)//ProductViewModel("Products")
 
+        productViewModel=
+            ViewModelProvider(
+                this,
+                ProductViewModelFactory()
+            )[ProductViewModel::class.java]
 
         if (view is RecyclerView) {
             with(view) {
@@ -69,7 +77,7 @@ class ProductFragment: Fragment() {
             }
         }
 
-        productViewModel.getProducts()
+        //productViewModel.getProducts()
         productViewModel.productFormState.observe(viewLifecycleOwner, Observer {
                 productFormState ->
             if(productFormState==null){
@@ -82,7 +90,7 @@ class ProductFragment: Fragment() {
         })
     }
 
-    private fun updateUiWithProduct(product: ProductView, view: View) {
+    private fun updateUiWithProduct(product: Product, view: View) {
         data.add(product)
 
         if (view is RecyclerView) {

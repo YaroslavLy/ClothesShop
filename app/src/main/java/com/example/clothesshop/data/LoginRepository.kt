@@ -1,6 +1,6 @@
 package com.example.clothesshop.data
 
-import com.example.clothesshop.data.model.LoggedInUser
+import com.example.clothesshop.model.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and

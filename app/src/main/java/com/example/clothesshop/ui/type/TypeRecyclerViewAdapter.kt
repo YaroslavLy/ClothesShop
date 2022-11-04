@@ -9,13 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.R
+import com.example.clothesshop.model.Type
 
 
-
-class TypeRecyclerViewAdapter(private val mList: List<TypeView>) :
+class TypeRecyclerViewAdapter(private val mList: List<Type>,private val view: View) :
     RecyclerView.Adapter<TypeRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,10 +31,11 @@ class TypeRecyclerViewAdapter(private val mList: List<TypeView>) :
         val ItemsViewModel = mList[position]
 
         holder.textName.text=ItemsViewModel.name
-        DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.url_image)
-//        holder.linearLayout.setOnClickListener{
-//            Log.i("tag","Hice")
-//        }
+        DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.urlImage)
+        holder.linearLayout.setOnClickListener{
+            Navigation.findNavController(view)
+                .navigate(R.id.action_typeFragment_to_productFragment)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -66,6 +69,8 @@ class TypeRecyclerViewAdapter(private val mList: List<TypeView>) :
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageViewType)
         val textName: TextView = itemView.findViewById(R.id.textViewType)
+        val linearLayout: LinearLayout=itemView.findViewById(R.id.linearType)
+
     }
 
 }

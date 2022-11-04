@@ -1,6 +1,6 @@
-package com.example.clothesshop.ui.product
+package com.example.clothesshop.model
 
-data class ProductView(
+data class Product(
     val image: String? = "",
     val name: String? = "",
     val price: String? = "",
