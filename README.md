@@ -5,6 +5,7 @@
 ## Nawigacja
 * [12.10.2022](#12102022)
 * [19.10.2022](#19102022)
+* [09.11.2022](#09112022)
 * [Dokumentacja](#dokumentacja)
 
 ## 12.10.2022
@@ -46,6 +47,14 @@ podział zadań
 <img src="https://user-images.githubusercontent.com/60778267/196625073-618dfbf7-759e-4efb-b969-0e71c472abb4.png" width="500"/>
 
 ## [⇈Do Nawigacji](#nawigacja)
+
+## 09.11.2022
+
+![image](https://user-images.githubusercontent.com/60778267/200525845-2891fae8-a3a4-4aed-a71a-a68fcd09eba2.png)
+![image](https://user-images.githubusercontent.com/60778267/200525908-7a79e3bc-38a2-4795-895f-4ec6b15e3738.png)
+
+## [⇈Do Nawigacji](#nawigacja)
+
 ## Dokumentacja
 
 [Dokumentacja_4.pdf](https://github.com/YaroslavLy/ClothesShop/blob/main/Dokumentacja_4.pdf)
