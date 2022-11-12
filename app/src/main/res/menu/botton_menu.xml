@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Główna"
+        android:id="@+id/main_menu"
+        android:icon="@drawable/ic_baseline_other_houses_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"
+        />
+    <item
+        android:title="Katalog"
+        android:id="@+id/catalog_menu"
+        android:icon="@drawable/ic_baseline_dashboard_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"
+        />
+    <item
+        android:title="Koszyk"
+        android:id="@+id/basket_menu"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"
+        />
+</menu>

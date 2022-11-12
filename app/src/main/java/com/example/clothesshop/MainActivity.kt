@@ -2,36 +2,58 @@ package com.example.clothesshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.example.clothesshop.databinding.ActivityMainBinding
+import com.example.clothesshop.model.Type
+import com.example.clothesshop.ui.category.CategoryFragment
+import com.example.clothesshop.ui.login.LoginFragment
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        // getting the recyclerview by its id
-        val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
 
-        // this creates a vertical layout Manager
-        recyclerview.layoutManager = LinearLayoutManager(this)
 
-        // ArrayList of class ItemsViewModel
-        val data = ArrayList<ProductViewModel>()
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            var fragent =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+            when (it.itemId) {
+                R.id.main_menu -> {
+                    fragent.view?.let { it1 ->
+                        Navigation.findNavController(it1)
+                            .navigate(R.id.categoryFragment)
+                    }
+                }
+                R.id.catalog_menu -> fragent.view?.let { it1 ->
+                    Navigation.findNavController(it1)
+                        .navigate(R.id.typeFragment)
+                }
+                R.id.basket_menu -> fragent.view?.let { it1 ->
+                    Navigation.findNavController(it1)
+                        .navigate(R.id.basketFragment)
+                }
 
-        // This loop will create 20 Views containing
-        // the image with the count of view
-        var listProductViewModel=ProvideData.getData()
+//                else -> {
+//
+//
+//                }
 
-        for (item in listProductViewModel) {
-            //data.add(ProductViewModel(R.drawable.ic_baseline_shop_24, "Item " + i))
-            data.add(item)
+            }
+            true
+
         }
 
-        // This will pass the ArrayList to our Adapter
-        val adapter = AdapterProduсt(data)
-
-        // Setting the Adapter with the recyclerview
-        recyclerview.adapter = adapter
     }
+
+
 }
