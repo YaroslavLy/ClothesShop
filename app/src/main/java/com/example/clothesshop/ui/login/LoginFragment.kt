@@ -1,5 +1,6 @@
 package com.example.clothesshop.ui.login
 
+import android.opengl.Visibility
 import androidx.lifecycle.Observer
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -12,12 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.Navigation
 import com.example.clothesshop.databinding.FragmentLoginBinding
 
 import com.example.clothesshop.R
 import com.example.clothesshop.data.LoginDataSource
 import com.example.clothesshop.data.LoginRepository
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -47,8 +50,12 @@ class LoginFragment : Fragment() {
     ): View? {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+        var bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        if (bottomNavigationView != null) {
+            bottomNavigationView.visibility = View.INVISIBLE
 
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -160,5 +167,10 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        var bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        if (bottomNavigationView != null) {
+            bottomNavigationView.visibility = View.VISIBLE
+
+        }
     }
 }
