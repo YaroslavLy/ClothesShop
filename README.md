@@ -57,6 +57,6 @@ podział zadań
 
 ## Dokumentacja
 
-[Dokumentacja_4.pdf](https://github.com/YaroslavLy/ClothesShop/blob/main/Dokumentacja_4.pdf)
+[Dokumentacja_6.pdf](https://github.com/YaroslavLy/ClothesShop/blob/main/Dokumentacja_6.pdf)
 
 ## [⇈Do Nawigacji](#nawigacja)
