@@ -56,8 +56,8 @@ podział zadań
 
 ## 09.11.2022
 
-![image](https://user-images.githubusercontent.com/60778267/200525845-2891fae8-a3a4-4aed-a71a-a68fcd09eba2.png)
-![image](https://user-images.githubusercontent.com/60778267/200525908-7a79e3bc-38a2-4795-895f-4ec6b15e3738.png)
+<img src="https://user-images.githubusercontent.com/60778267/200525845-2891fae8-a3a4-4aed-a71a-a68fcd09eba2.png" alt="drawing" width="200"/>
+<img src="https://user-images.githubusercontent.com/60778267/200525908-7a79e3bc-38a2-4795-895f-4ec6b15e3738.png" alt="drawing" width="200"/>
 
 ## [⇈Do Nawigacji](#nawigacja)
 
