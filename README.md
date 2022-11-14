@@ -36,6 +36,7 @@ dodanie zdjęć w app
 design fragmenta listy produktów w figma 
 https://www.figma.com/file/PCgwhUtoh8jljiULmbULvT/Untitled?node-id=0%3A1
 
+
 <img src="https://user-images.githubusercontent.com/60778267/196622516-33ed66a6-ea86-47eb-9637-19879b855d87.png" width="200"/>
 
 stworzenie dazy danych firebase
@@ -45,6 +46,11 @@ stworzenie dazy danych firebase
 podział zadań
 
 <img src="https://user-images.githubusercontent.com/60778267/196625073-618dfbf7-759e-4efb-b969-0e71c472abb4.png" width="500"/>
+
+## [⇈Do Nawigacji](#nawigacja)
+
+## 26.10.2022
+[PZ1.pptx](https://github.com/YaroslavLy/ClothesShop/files/10005322/PZ1.pptx)
 
 ## [⇈Do Nawigacji](#nawigacja)
 
