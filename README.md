@@ -6,6 +6,7 @@
 * [12.10.2022](#12102022)
 * [19.10.2022](#19102022)
 * [09.11.2022](#09112022)
+* [16.11.2022](#16112022)
 * [Dokumentacja](#dokumentacja)
 
 ## 12.10.2022
@@ -58,6 +59,21 @@ podział zadań
 
 <img src="https://user-images.githubusercontent.com/60778267/200525845-2891fae8-a3a4-4aed-a71a-a68fcd09eba2.png" alt="drawing" width="200"/>
 <img src="https://user-images.githubusercontent.com/60778267/200525908-7a79e3bc-38a2-4795-895f-4ec6b15e3738.png" alt="drawing" width="200"/>
+
+## [⇈Do Nawigacji](#nawigacja)
+
+## 16.11.2022
+
+![image](https://user-images.githubusercontent.com/60778267/201962177-a89b35dd-e8bc-4a06-ad46-da202cd434df.png)
+
+![image](https://user-images.githubusercontent.com/60778267/201966173-920a5543-ae56-4cd7-bc8d-47f2218e0f0d.png)
+
+![image](https://user-images.githubusercontent.com/60778267/201962266-92b2ebe1-af7b-4d8c-b2c6-99d9d8f82cbf.png)
+
+![image](https://user-images.githubusercontent.com/60778267/201962709-0c09eace-6c72-47ea-9d30-2756dbf5a4c0.png)
+
+![image](https://user-images.githubusercontent.com/60778267/201962371-a38360c2-2441-42a4-bfe3-bb03584efa3f.png)
+
 
 ## [⇈Do Nawigacji](#nawigacja)
 
