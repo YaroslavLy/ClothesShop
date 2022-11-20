@@ -42,6 +42,10 @@ class LoginFragment : Fragment() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
+    override fun onResume() {
+        Log.i("tag99","Login Fragment LY")
+        super.onResume()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +54,8 @@ class LoginFragment : Fragment() {
     ): View? {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        var bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        var bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (bottomNavigationView != null) {
             bottomNavigationView.visibility = View.INVISIBLE
 

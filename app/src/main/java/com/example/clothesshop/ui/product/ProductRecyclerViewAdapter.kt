@@ -8,18 +8,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.GlideApp
 
 import com.example.clothesshop.R
 import com.example.clothesshop.model.Product
+import com.example.clothesshop.model.ProductBasket
+import com.google.firebase.database.FirebaseDatabase
 
 
-class ProductRecyclerViewAdapter(private val mList: List<Product>) :
+class ProductRecyclerViewAdapter(private val mList: List<Product>,private val mBasketList: MutableList<ProductBasket>) :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>() {
 
     //val context: Context
     lateinit var view: View
+     var idProducts = mutableListOf<String>()
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
@@ -30,11 +34,12 @@ class ProductRecyclerViewAdapter(private val mList: List<Product>) :
         return ViewHolder(view)
     }
 
+
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val ItemsViewModel = mList[position]
-        
+
 
         holder.textName.text=ItemsViewModel.name
         //holder.textCode.text=ItemsViewModel.code
@@ -47,13 +52,57 @@ class ProductRecyclerViewAdapter(private val mList: List<Product>) :
         holder.linearLayout.setOnClickListener{
             Log.i("tag","Hice")
         }
-        holder.buttonBasket.setOnClickListener {
+        if(ifElementInBasket(ItemsViewModel))
+        {
             holder.buttonBasket.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
+        }
+        holder.buttonBasket.setOnClickListener {
+            //TODO move to Repo
+            val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/def")
+
+
+            if(!ifElementInBasket(ItemsViewModel)) {
+                val t1 = ItemsViewModel.copy()
+                firebaseDatabase.push().setValue(t1)
+                holder.buttonBasket.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
+            }else
+            {
+                val t1 = ItemsViewModel.copy()
+                // the best code
+                t1.code?.let { it1 -> getItemByCode(it1).id?.let { it1 -> firebaseDatabase.child(it1).removeValue() } }
+                //mBasketList.remove(t1.code?.let { it1 -> getItemByCode(it1) })
+                //ProductFragment.basketData =
+                ProductFragment.basketData.remove(getItemByCode(t1.code!!))
+                holder.buttonBasket.setImageResource(R.drawable.ic_baseline_add_shopping_cart_24)
+            }
+
         }
 
     }
 
+    private fun getItemByCode(code: String):ProductBasket{
+        for (productBasket in mBasketList)
+        {
+            if(productBasket.code.equals(code))
+                return productBasket
+        }
+        return ProductBasket()
+    }
 
+    private fun ifElementInBasket(product: Product):Boolean
+    {
+        for (productBasket in mBasketList) {
+            Log.i("TAR", productBasket.code.toString())
+        }
+        Log.i("TAR","----------------------")
+        for (productBasket in mBasketList)
+        {
+            //Log.i("TAR",mBasketList.toString())
+            if(productBasket.code.equals(product.code))
+                return true
+        }
+        return false
+    }
 
     // return the number of the items in the list
     override fun getItemCount(): Int {

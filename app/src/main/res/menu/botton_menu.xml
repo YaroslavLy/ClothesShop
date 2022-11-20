@@ -6,7 +6,7 @@
         android:id="@+id/main_menu"
         android:icon="@drawable/ic_baseline_other_houses_24"
         app:showAsAction="ifRoom"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         />
     <item
         android:title="Katalog"
@@ -20,6 +20,6 @@
         android:id="@+id/basket_menu"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         app:showAsAction="ifRoom"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         />
 </menu>

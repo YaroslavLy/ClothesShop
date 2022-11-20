@@ -1,6 +1,7 @@
 package com.example.clothesshop.ui.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.clothesshop.model.Product
+import com.example.clothesshop.model.ProductBasket
 import com.example.clothesshop.ui.category.CategoryViewModel
 import com.example.clothesshop.ui.category.CategoryViewModelFactory
 
@@ -24,11 +26,15 @@ class ProductFragment: Fragment() {
     private var data = ArrayList<Product>()
 
 
+    override fun onResume() {
+        Log.i("tag99","Product Fragment LY")
+        super.onResume()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            columnCount = 2//it.getInt(ARG_COLUMN_COUNT)
         }
         setHasOptionsMenu(true)
     }
@@ -42,7 +48,7 @@ class ProductFragment: Fragment() {
         if(item.itemId== R.id.menu_logout)
         {
             Firebase.auth.signOut()
-            this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
+            //this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -73,11 +79,13 @@ class ProductFragment: Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = ProductRecyclerViewAdapter(data)
+                adapter = ProductRecyclerViewAdapter(data,basketData)
             }
         }
 
         //productViewModel.getProducts()
+
+
         productViewModel.productFormState.observe(viewLifecycleOwner, Observer {
                 productFormState ->
             if(productFormState==null){
@@ -88,6 +96,41 @@ class ProductFragment: Fragment() {
             }
 
         })
+        productViewModel.getBasketProducts()
+        productViewModel.productBasketFormState.observe(viewLifecycleOwner, Observer {
+                productFormState ->
+            if(productFormState==null){
+                return@Observer
+            }
+            productFormState?.let {
+                updateUiWithProduct2(it,view)
+            }
+
+        })
+    }
+
+    private fun updateUiWithProduct2(product: ProductBasket, view: View) {
+        if(!ifItemInBasketList(product.code.toString())) {
+            basketData.add(product)
+        }
+        Log.i("DO1",basketData.toString())
+        if (view is RecyclerView) {
+            with(view) {
+                adapter?.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun ifItemInBasketList(code: String):Boolean
+    {
+        for (basketProduct in basketData)
+        {
+            if(basketProduct.code.equals(code))
+            {
+                return true
+            }
+        }
+        return false
     }
 
     private fun updateUiWithProduct(product: Product, view: View) {
@@ -101,17 +144,6 @@ class ProductFragment: Fragment() {
     }
 
     companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            ProductFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+         var basketData = ArrayList<ProductBasket>()
     }
 }

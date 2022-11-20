@@ -1,6 +1,7 @@
 package com.example.clothesshop.ui.type
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.clothesshop.model.Type
 import com.example.clothesshop.ui.category.CategoryViewModel
 import com.example.clothesshop.ui.category.CategoryViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class TypeFragment : Fragment() {
@@ -21,6 +23,10 @@ class TypeFragment : Fragment() {
     private lateinit var typeViewModel: TypeViewModel
     private var data = ArrayList<Type>()
 
+    override fun onResume() {
+        Log.i("tag99","Type  Fragment LY")
+        super.onResume()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +36,6 @@ class TypeFragment : Fragment() {
 //        }
 
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +53,14 @@ class TypeFragment : Fragment() {
         val args: TypeFragmentArgs by navArgs()
         val type =  args.arg
 
+        if(type.equals("all")) {
+            var bottomNavigationView =
+                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            if (bottomNavigationView != null) {
+                var b3 = bottomNavigationView.menu.findItem(R.id.catalog_menu)
+                b3.isChecked = true
+            }
+        }
         typeViewModel=
             ViewModelProvider(
                 this,
@@ -80,7 +93,9 @@ class TypeFragment : Fragment() {
     }
 
     private fun updateUiWithProduct(product: Type, view: View) {
+
         data.add(product)
+
 
         if (view is RecyclerView) {
             with(view) {

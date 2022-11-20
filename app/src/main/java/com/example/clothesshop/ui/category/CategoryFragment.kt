@@ -10,13 +10,16 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
 import com.example.clothesshop.model.Category
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +41,18 @@ class CategoryFragment : Fragment() {
     private val binding get() = _binding!!
 
 
+    override fun onResume() {
+        Log.i("tag99","Category Fragment LY")
+        super.onResume()
+        var bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        if (bottomNavigationView != null) {
+            var b1 = bottomNavigationView.menu.findItem(R.id.main_menu)
+            b1.isChecked = true
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -51,7 +66,7 @@ class CategoryFragment : Fragment() {
         if(item.itemId== R.id.menu_logout)
         {
             Firebase.auth.signOut()
-            this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
+            //this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -67,6 +82,8 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.i("tag99","Category ViewCreated LY")
         categoryViewModel =
             ViewModelProvider(
                 this,
@@ -75,7 +92,16 @@ class CategoryFragment : Fragment() {
 
         //CategoryViewModel("Categories")
         //categoryViewModel.getCategories()
-
+        count=0
+//        listCategory.clear()
+        Log.i("tag99",listCategory.toString())
+        if(listCategory.isNotEmpty())
+        {
+            for (category in listCategory)
+            {
+                updateUiWithCategories(view)
+            }
+        }
         categoryViewModel.categoryFormState.observe(viewLifecycleOwner, Observer {
             categoryFromState ->
             if(categoryFromState == null)
@@ -144,8 +170,15 @@ class CategoryFragment : Fragment() {
                 )
             }
             if (action != null) {
-                Navigation.findNavController(view)
-                    .navigate(action)
+                findNavController()
+                    .navigate(action, navOptions {
+                        anim {
+                            enter = R.anim.side_in
+                            exit = R.anim.fade_out
+                            popEnter = R.anim.fade_in
+                            popExit = R.anim.side_out
+                        }
+                    })
             }
 
                // .navigate(R.id.action_categoryFragment_to_typeFragment)
@@ -155,6 +188,10 @@ class CategoryFragment : Fragment() {
         count++
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
     private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {

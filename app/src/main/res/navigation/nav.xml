@@ -17,11 +17,7 @@
         android:id="@+id/productFragment"
         android:name="com.example.clothesshop.ui.product.ProductFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" >
-        <action
-            android:id="@+id/action_productFragment_to_loginFragment2"
-            app:destination="@id/loginFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_product_list" />
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.clothesshop.ui.category.CategoryFragment"

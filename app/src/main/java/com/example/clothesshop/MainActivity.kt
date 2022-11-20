@@ -2,9 +2,11 @@ package com.example.clothesshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.clothesshop.databinding.ActivityMainBinding
@@ -16,6 +18,12 @@ import com.google.firebase.database.FirebaseDatabase
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        return super.onSupportNavigateUp()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,8 +33,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.bottomNavigationView.setOnItemSelectedListener {
-            var fragent =
-                supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+           // Log.i("tag444", supportFragmentManager.findFragmentById(R.id.fragmentContainerView2)?.id.toString() )
+            var fragent = getNavHostFragment()
             when (it.itemId) {
                 R.id.main_menu -> {
                     fragent.view?.let { it1 ->
@@ -43,11 +51,6 @@ class MainActivity : AppCompatActivity() {
                         .navigate(R.id.basketFragment)
                 }
 
-//                else -> {
-//
-//
-//                }
-
             }
             true
 
@@ -55,5 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun getNavHostFragment() =
+        supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
 
 }
