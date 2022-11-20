@@ -17,7 +17,11 @@
         android:id="@+id/productFragment"
         android:name="com.example.clothesshop.ui.product.ProductFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" />
+        tools:layout="@layout/fragment_product_list" >
+        <action
+            android:id="@+id/action_productFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.clothesshop.ui.category.CategoryFragment"
@@ -44,5 +48,19 @@
         android:id="@+id/basketFragment"
         android:name="com.example.clothesshop.ui.basket.BasketFragment"
         android:label="fragment_basket"
-        tools:layout="@layout/fragment_basket" />
+        tools:layout="@layout/fragment_basket" >
+        <action
+            android:id="@+id/action_basketFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.clothesshop.ui.product.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

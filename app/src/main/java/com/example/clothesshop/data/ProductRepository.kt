@@ -26,7 +26,8 @@ class ProductRepository(val path: String="") {
                             price = item.price,
                             code = item.code,
                             in_bascked = item.in_bascked,
-                            type = item.type
+                            type = item.type,
+                            description = item.description
                         )
                         trySend(Resource.Success<Product>(product)).isSuccess
                     }

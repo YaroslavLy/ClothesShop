@@ -28,7 +28,8 @@ class BasketRepository(val path: String="") {
                             price = item.price,
                             code = item.code,//get key
                             in_bascked = item.in_bascked,
-                            type = item.type
+                            type = item.type,
+                            description = item.description
                         )
                         trySend(Resource.Success<ProductBasket>(product)).isSuccess
                     }

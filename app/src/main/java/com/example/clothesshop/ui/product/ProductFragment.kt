@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
-import com.example.clothesshop.ui.category.CategoryViewModel
-import com.example.clothesshop.ui.category.CategoryViewModelFactory
 
 class ProductFragment: Fragment() {
 
@@ -79,7 +76,7 @@ class ProductFragment: Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = ProductRecyclerViewAdapter(data,basketData)
+                adapter = ProductRecyclerViewAdapter(data,basketData,view)
             }
         }
 

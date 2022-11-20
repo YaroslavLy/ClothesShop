@@ -3,12 +3,14 @@ package com.example.clothesshop
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.example.clothesshop.databinding.ActivityMainBinding
 import com.example.clothesshop.model.Type
 import com.example.clothesshop.ui.category.CategoryFragment
@@ -60,5 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNavHostFragment() =
         supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+
+
 
 }

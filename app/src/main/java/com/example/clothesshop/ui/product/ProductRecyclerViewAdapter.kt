@@ -8,17 +8,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.GlideApp
 
 import com.example.clothesshop.R
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
+import com.example.clothesshop.ui.category.CategoryFragmentDirections
 import com.google.firebase.database.FirebaseDatabase
 
 
-class ProductRecyclerViewAdapter(private val mList: List<Product>,private val mBasketList: MutableList<ProductBasket>) :
+class ProductRecyclerViewAdapter(
+    private val mList: List<Product>,
+    private val mBasketList: MutableList<ProductBasket>,
+    private val view1: RecyclerView
+) :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>() {
 
     //val context: Context
@@ -51,6 +56,14 @@ class ProductRecyclerViewAdapter(private val mList: List<Product>,private val mB
             .into(holder.imageView)
         holder.linearLayout.setOnClickListener{
             Log.i("tag","Hice")
+
+            val action = ItemsViewModel.code?.let { it1 ->
+                ProductFragmentDirections.actionProductFragmentToProductDetailsFragment(it1)
+            }
+            if (action != null) {
+                Navigation.findNavController(view = view1).navigate(action)
+            }
+
         }
         if(ifElementInBasket(ItemsViewModel))
         {

@@ -7,6 +7,7 @@ class ProductBasket(
     val price: String? = "",
     val code: String? = "",
     val in_bascked: Boolean? = false,
-    val type: String? = ""
+    val type: String? = "",
+    val description: String? = ""
 ) {
 }
