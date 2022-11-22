@@ -14,7 +14,7 @@ import com.example.clothesshop.data.BasketRepository
 import com.example.clothesshop.data.ProductRepository
 import com.example.clothesshop.databinding.FragmentProductDetailsBinding
 import com.example.clothesshop.model.Product
-import com.example.clothesshop.ui.type.TypeFragmentArgs
+
 
 class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
@@ -36,8 +36,9 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
     lateinit var type: String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args: ProductDetailsFragmentArgs by navArgs()
-        type =  args.id
+        //todo
+//        val args: ProductDetailsFragmentArgs by navArgs()
+//        type =  args.id
 
         // TODO replace
         var viewModel = ProductViewModel(productRepository = ProductRepository(""), basketRepository = BasketRepository(""))
@@ -53,7 +54,8 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
         })
 
-        binding.details.text=args.id
+        //todo
+        //binding.details.text=args.id
 
     }
 

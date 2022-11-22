@@ -1,5 +1,6 @@
 package com.example.clothesshop.ui.type
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,6 +13,8 @@ import com.example.clothesshop.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.example.clothesshop.Constants
+import com.example.clothesshop.Constants.KEY_FOLDER
 import com.example.clothesshop.model.Type
 import com.example.clothesshop.ui.category.CategoryViewModel
 import com.example.clothesshop.ui.category.CategoryViewModelFactory
@@ -50,17 +53,12 @@ class TypeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args: TypeFragmentArgs by navArgs()
-        val type =  args.arg
+        //val args: TypeFragmentArgs by navArgs()
+        // todo move to data
+        val sharedPreferences = context?.getSharedPreferences(Constants.SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
+        val type = sharedPreferences?.getString(KEY_FOLDER,"all") ?:"all"// "all"// args.arg
 
-        if(type.equals("all")) {
-            var bottomNavigationView =
-                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            if (bottomNavigationView != null) {
-                var b3 = bottomNavigationView.menu.findItem(R.id.catalog_menu)
-                b3.isChecked = true
-            }
-        }
+
         typeViewModel=
             ViewModelProvider(
                 this,

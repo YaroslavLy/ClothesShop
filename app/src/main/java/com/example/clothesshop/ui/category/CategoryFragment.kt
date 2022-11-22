@@ -1,6 +1,7 @@
 package com.example.clothesshop.ui.category
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -16,6 +17,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.example.clothesshop.Constants.KEY_FOLDER
+import com.example.clothesshop.Constants.SHARED_PREFS_CATEGORY
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
 import com.example.clothesshop.model.Category
@@ -44,13 +47,13 @@ class CategoryFragment : Fragment() {
     override fun onResume() {
         Log.i("tag99","Category Fragment LY")
         super.onResume()
-        var bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        if (bottomNavigationView != null) {
-            var b1 = bottomNavigationView.menu.findItem(R.id.main_menu)
-            b1.isChecked = true
-
-        }
+//        var bottomNavigationView =
+//            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+//        if (bottomNavigationView != null) {
+//            var b1 = bottomNavigationView.menu.findItem(R.id.main_menu)
+//            b1.isChecked = true
+//
+//        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,23 +166,34 @@ class CategoryFragment : Fragment() {
             DownloadImageFromInternet(categoryImage).execute(listCategory[count].url_image)
         }
         categoryText?.text = listCategory[count].name_pl
+        // todo launch graf use argument
+        // todo
         category?.setOnClickListener {
-            val action = folder?.let { it1 ->
-                CategoryFragmentDirections.actionCategoryFragmentToTypeFragment(
-                    it1
-                )
+
+            // todo move to data and create domain l
+             val sharedPreferences = context?.getSharedPreferences(SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
+            if (sharedPreferences != null) {
+                sharedPreferences.edit().putString(KEY_FOLDER,folder).apply()
             }
-            if (action != null) {
-                findNavController()
-                    .navigate(action, navOptions {
-                        anim {
-                            enter = R.anim.side_in
-                            exit = R.anim.fade_out
-                            popEnter = R.anim.fade_in
-                            popExit = R.anim.side_out
-                        }
-                    })
-            }
+            findNavController().navigate(R.id.action_categoryFragment2_to_catalog_graph)
+            //val action = CategoryFragmentDirections.actionCategoryFragment2ToCatalogGraph(folder)
+
+//            val action = folder?.let { it1 ->
+//                CategoryFragmentDirections.actionCategoryFragment2ToCatalogGraph(  //actionCategoryFragmentToTypeFragment(
+//                    //it1
+//                )
+//            }
+//            if (action != null) {
+//                findNavController()
+//                    .navigate(action, navOptions {
+//                        anim {
+//                            enter = R.anim.side_in
+//                            exit = R.anim.fade_out
+//                            popEnter = R.anim.fade_in
+//                            popExit = R.anim.side_out
+//                        }
+//                    })
+//            }
 
                // .navigate(R.id.action_categoryFragment_to_typeFragment)
         }

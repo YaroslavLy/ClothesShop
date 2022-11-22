@@ -20,11 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.R
 import com.example.clothesshop.model.ProductBasket
-import com.example.clothesshop.model.Type
-import com.example.clothesshop.ui.type.TypeFragmentArgs
-import com.example.clothesshop.ui.type.TypeRecyclerViewAdapter
-import com.example.clothesshop.ui.type.TypeViewModel
-import com.example.clothesshop.ui.type.TypeViewModelFactory
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BasketFragment : Fragment() {
@@ -39,19 +35,20 @@ class BasketFragment : Fragment() {
         var bottomNavigationView =
             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (bottomNavigationView != null) {
-            var b2 = bottomNavigationView.menu.findItem(R.id.basket_menu)
-            b2.isChecked = true
+//            var b2 = bottomNavigationView.menu.findItem(R.id.basket_menu)
+//            b2.isChecked = true
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var button =
-            activity?.findViewById<Button>(R.id.button)
-        var linearText =
-            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
-        button?.visibility= View.VISIBLE
-        linearText?.visibility= View.VISIBLE
+//        var button =
+//            activity?.findViewById<Button>(R.id.button)
+//        var linearText =
+//            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
+//        button?.visibility= View.VISIBLE
+//        linearText?.visibility= View.VISIBLE
 //        arguments?.let {
 //            columnCount = it.getInt(columnCount.toString())
 //        }
@@ -87,33 +84,38 @@ class BasketFragment : Fragment() {
 //                this,
 //                TypeViewModelFactory(type)
 //            )[TypeViewModel::class.java]
-
-        if (view is RecyclerView) {
-            with(view) {
+        val view3= view.findViewById<RecyclerView>(R.id.list_product_basket)
+        if (view3 is RecyclerView) {
+            with(view3) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, 1)
                 }
-                adapter = BasketRecyclerViewAdapter(data,view)
+                adapter = BasketRecyclerViewAdapter(data,view3)
             }
         }
 
         //typeViewModel.getTypes()
+        basketViewModel.get()
         basketViewModel.basketProductFormState.observe(viewLifecycleOwner, Observer {
-                typeFormState ->
-            if(typeFormState==null){
+                productBasket ->
+            if(productBasket==null){
                 return@Observer
             }
-            typeFormState?.let {
-                updateUiWithProduct(it,view)
+            productBasket?.let {
+                updateUiWithProduct(it,view3)
             }
 
         })
     }
 
+
+
     private fun updateUiWithProduct(product: ProductBasket, view: View) {
 
-        data.add(product)
+        if(!constainBasketProduct(product)) {
+            data.add(product)
+        }
         view.background = Color.WHITE.toDrawable()
         if (view is RecyclerView) {
             with(view) {
@@ -122,14 +124,26 @@ class BasketFragment : Fragment() {
         }
     }
 
+    private fun constainBasketProduct(product: ProductBasket): Boolean
+    {
+        for (pr in data)
+        {
+            if(pr.code.equals(product.code))
+            {
+                return true
+            }
+        }
+        return false
+    }
+
     override fun onPause() {
         super.onPause()
-        var button =
-            activity?.findViewById<Button>(R.id.button)
-        var linearText =
-            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
-        button?.visibility= View.GONE
-        linearText?.visibility= View.GONE
+//        var button =
+//            activity?.findViewById<Button>(R.id.button)
+//        var linearText =
+//            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
+//        button?.visibility= View.GONE
+//        linearText?.visibility= View.GONE
     }
 
 }

@@ -13,12 +13,27 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 
-class BasketViewModel(basketRepository: BasketRepository): ViewModel() {
+class BasketViewModel(val basketRepository: BasketRepository): ViewModel() {
 
     private val _basketProductForm = MutableLiveData<ProductBasket>()
     val basketProductFormState: LiveData<ProductBasket> = _basketProductForm
 
-    init {
+//    init {
+//        basketRepository.getProducts()
+//            .onEach { resource ->
+//                when (resource) {
+//                    is Resource.Success -> {
+//                        _basketProductForm.value = resource.data!!
+//                    }
+//                    is Resource.Error -> {
+//                        //Log.w(TAG, resource.error!!)
+//                    }
+//                }
+//            }
+//            .launchIn(viewModelScope)
+//    }
+
+    fun get(){
         basketRepository.getProducts()
             .onEach { resource ->
                 when (resource) {

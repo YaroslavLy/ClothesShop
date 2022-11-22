@@ -15,7 +15,7 @@ import com.example.clothesshop.GlideApp
 import com.example.clothesshop.R
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
-import com.example.clothesshop.ui.category.CategoryFragmentDirections
+
 import com.google.firebase.database.FirebaseDatabase
 
 
@@ -58,10 +58,10 @@ class ProductRecyclerViewAdapter(
             Log.i("tag","Hice")
 
             val action = ItemsViewModel.code?.let { it1 ->
-                ProductFragmentDirections.actionProductFragmentToProductDetailsFragment(it1)
+                ///ProductFragmentDirections.actionProductFragmentToProductDetailsFragment(it1)
             }
             if (action != null) {
-                Navigation.findNavController(view = view1).navigate(action)
+                //Navigation.findNavController(view = view1).navigate(action)
             }
 
         }

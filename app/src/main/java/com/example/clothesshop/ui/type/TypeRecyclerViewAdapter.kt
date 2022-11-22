@@ -34,7 +34,7 @@ class TypeRecyclerViewAdapter(private val mList: List<Type>,private val view: Vi
         DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.urlImage)
         holder.linearLayout.setOnClickListener{
             Navigation.findNavController(view)
-                .navigate(R.id.action_typeFragment_to_productFragment)
+                .navigate(R.id.action_typeFragment2_to_productFragment3)
         }
     }
 
