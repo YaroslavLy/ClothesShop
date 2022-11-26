@@ -84,6 +84,11 @@ class LoginFragment : Fragment() {
         val passwordEditText = binding.password
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
+        val singUp = binding.singUp
+
+        singUp.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -91,6 +96,7 @@ class LoginFragment : Fragment() {
                     return@Observer
                 }
                 loginButton.isEnabled = loginFormState.isDataValid
+
                 loginFormState.usernameError?.let {
                     usernameEditText.error = getString(it)
                 }
@@ -162,7 +168,7 @@ class LoginFragment : Fragment() {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
         //todo
-        //Navigation.findNavController(view).navigate(R.id.action_loginFragment2_to_categoryFragment)
+        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_tabsFragment)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

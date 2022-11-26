@@ -37,8 +37,8 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //todo
-//        val args: ProductDetailsFragmentArgs by navArgs()
-//        type =  args.id
+        val args: ProductDetailsFragmentArgs by navArgs()
+        type =  args.id
 
         // TODO replace
         var viewModel = ProductViewModel(productRepository = ProductRepository(""), basketRepository = BasketRepository(""))

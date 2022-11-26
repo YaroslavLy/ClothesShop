@@ -58,10 +58,10 @@ class ProductRecyclerViewAdapter(
             Log.i("tag","Hice")
 
             val action = ItemsViewModel.code?.let { it1 ->
-                ///ProductFragmentDirections.actionProductFragmentToProductDetailsFragment(it1)
+                ProductFragmentDirections.actionProductFragment3ToProductDetailsFragment4(it1)
             }
             if (action != null) {
-                //Navigation.findNavController(view = view1).navigate(action)
+                Navigation.findNavController(view = view1).navigate(action)
             }
 
         }

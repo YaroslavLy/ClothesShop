@@ -11,18 +11,17 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.view.get
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.example.clothesshop.Constants.KEY_FOLDER
 import com.example.clothesshop.Constants.SHARED_PREFS_CATEGORY
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
 import com.example.clothesshop.model.Category
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +41,7 @@ class CategoryFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    private lateinit var auth: FirebaseAuth
 
     override fun onResume() {
         Log.i("tag99","Category Fragment LY")
@@ -54,6 +53,16 @@ class CategoryFragment : Fragment() {
 //            b1.isChecked = true
 //
 //        }
+        // TODO check verified
+        auth = Firebase.auth
+        val user = auth.currentUser
+        if (user!!.isEmailVerified) {
+            Log.d("TAG1", "User is verified..."+user.email)
+            Toast.makeText(context, "User is verified..."+user.email, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "User isn't verified...", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
