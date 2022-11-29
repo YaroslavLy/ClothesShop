@@ -7,6 +7,7 @@
 * [19.10.2022](#19102022)
 * [09.11.2022](#09112022)
 * [16.11.2022](#16112022)
+* [30.11.2022](#30112022)
 * [Dokumentacja](#dokumentacja)
 
 ## 12.10.2022
@@ -73,6 +74,31 @@ podział zadań
 ![image](https://user-images.githubusercontent.com/60778267/201962709-0c09eace-6c72-47ea-9d30-2756dbf5a4c0.png)
 
 ![image](https://user-images.githubusercontent.com/60778267/201962371-a38360c2-2441-42a4-bfe3-bb03584efa3f.png)
+
+
+## [⇈Do Nawigacji](#nawigacja)
+
+
+## 30.11.2022
+
+dodanie prz. dla rejestracji
+![image](https://user-images.githubusercontent.com/60778267/204648314-125447cf-142b-4b24-8626-dab32151dd06.png)
+
+fragment rejestracji
+![image](https://user-images.githubusercontent.com/60778267/204648509-7f8b6a57-a358-4e09-8eda-01498bf17c5a.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204648775-b00c0dd7-9bef-443e-a0e3-f85db2a17087.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204648866-d8b9791d-3108-419c-907d-f8d073287d89.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204648941-cec09292-5bcb-4152-9b7f-4a5b5b7b136d.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204649021-1d47cd55-0e27-4388-9274-a75199d4b401.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204649076-d6477983-0482-43ab-9151-878043517a5b.png)
+
+![image](https://user-images.githubusercontent.com/60778267/204649292-4514612c-3c45-465f-9ac6-e97fa1b24f87.png)
+
 
 
 ## [⇈Do Nawigacji](#nawigacja)
