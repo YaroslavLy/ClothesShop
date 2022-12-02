@@ -57,7 +57,7 @@ class TypeFragment : Fragment() {
         // todo move to data
         val sharedPreferences = context?.getSharedPreferences(Constants.SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
         val type = sharedPreferences?.getString(KEY_FOLDER,"all") ?:"all"// "all"// args.arg
-
+        Log.i("Test0112",type.toString())
 
         typeViewModel=
             ViewModelProvider(

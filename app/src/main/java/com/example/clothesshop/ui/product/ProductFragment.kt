@@ -27,42 +27,28 @@ class ProductFragment: Fragment() {
         Log.i("tag99","Product Fragment LY")
         super.onResume()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = 2//it.getInt(ARG_COLUMN_COUNT)
+            columnCount = 2
         }
-        setHasOptionsMenu(true)
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.list_product_menu,menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId== R.id.menu_logout)
-        {
-            Firebase.auth.signOut()
-            //this.view?.let { Navigation.findNavController(it).navigate(R.id.action_productFragment_to_loginFragment2) }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val view = inflater.inflate(R.layout.fragment_product_list, container, false)
         //recyclerview.adapter = adapter
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)//ProductViewModel("Products")
+        super.onViewCreated(view, savedInstanceState)
 
         productViewModel=
             ViewModelProvider(
@@ -79,8 +65,6 @@ class ProductFragment: Fragment() {
                 adapter = ProductRecyclerViewAdapter(data,basketData,view)
             }
         }
-
-        //productViewModel.getProducts()
 
 
         productViewModel.productFormState.observe(viewLifecycleOwner, Observer {

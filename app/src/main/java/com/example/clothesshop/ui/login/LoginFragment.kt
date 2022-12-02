@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.clothesshop.databinding.FragmentLoginBinding
 
@@ -68,15 +69,6 @@ class LoginFragment : Fragment() {
 //        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
 //            .get(LoginViewModel::class.java)
 
-        auth = Firebase.auth
-
-        val currentUser = auth.currentUser
-        //currentUser
-        if (currentUser != null) {
-           // Navigation.findNavController(view)
-            //    .navigate(R.id.action_loginFragment2_to_categoryFragment)
-
-        }
         loginViewModel =
             LoginViewModel(loginRepository = LoginRepository(dataSource = LoginDataSource()))
 
@@ -167,7 +159,6 @@ class LoginFragment : Fragment() {
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
-        //todo
         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_tabsFragment)
     }
 

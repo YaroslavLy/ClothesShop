@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class BasketRepository(val path: String="") {
 
-    fun getProducts() : Flow<Resource<ProductBasket>> = callbackFlow  {
+    fun getProducts() : Flow<Result<ProductBasket>> = callbackFlow  {
         val fbDB = FirebaseDatabase.getInstance().getReference("Basket/def")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -31,12 +31,12 @@ class BasketRepository(val path: String="") {
                             type = item.type,
                             description = item.description
                         )
-                        trySend(Resource.Success<ProductBasket>(product)).isSuccess
+                        trySend(Result.Success<ProductBasket>(product)).isSuccess
                     }
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                trySend(Resource.Error(databaseError.toException().toString())).isFailure
+                trySend(Result.Error(databaseError.toException())).isFailure
                 Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
             }
         }
@@ -46,4 +46,31 @@ class BasketRepository(val path: String="") {
             close()
         }
     }
+
+    fun getCountProductsInBasket():Flow<Int> = callbackFlow {
+        val fbDB = FirebaseDatabase.getInstance().getReference("Basket/def")
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var count = dataSnapshot.childrenCount
+
+                trySend(count.toInt()).isSuccess
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                //trySend(Result.Error(databaseError.toException())).isFailure
+                //Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+            }
+
+        }
+        fbDB.addValueEventListener(postListener)
+        awaitClose {
+            close()
+        }
+    }
+
+    fun removeProductInBasket(productBasket: ProductBasket){
+        val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/def")
+        productBasket.id?.let { firebaseDatabase.child(it).removeValue() }
+    }
+
+
 }

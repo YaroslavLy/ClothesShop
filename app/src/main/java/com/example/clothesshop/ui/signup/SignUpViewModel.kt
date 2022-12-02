@@ -10,9 +10,13 @@ import com.example.clothesshop.data.Resource
 import com.example.clothesshop.data.SignUpRepository
 import com.example.clothesshop.ui.login.LoginFormState
 import com.example.clothesshop.ui.login.LoginResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class SignUpViewModel(private val signUpRepository: SignUpRepository) : ViewModel() {
 
@@ -21,6 +25,19 @@ class SignUpViewModel(private val signUpRepository: SignUpRepository) : ViewMode
 
     private val _signupResult = MutableLiveData<Boolean>()
     val signupResult: LiveData<Boolean> = _signupResult
+
+
+    init {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                // run read - write (ex. write read DB)
+            }
+
+            withContext(Dispatchers.Default){
+                // run важкі math  operation
+            }
+        }
+    }
 
 
      fun signUp(username: String, password: String){

@@ -1,150 +1,111 @@
 package com.example.clothesshop.ui.basket
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.clothesshop.R
+import com.example.clothesshop.databinding.FragmentBasketBinding
 import com.example.clothesshop.model.ProductBasket
 
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BasketFragment : Fragment() {
-
-    private var columnCount = 3
     private lateinit var basketViewModel: BasketViewModel
     private var data = ArrayList<ProductBasket>()
 
+    private lateinit var adapter: BasketRecyclerViewAdapter
+
+    private var _binding: FragmentBasketBinding? = null
+    private val binding get() = _binding!!
+
     override fun onResume() {
-        Log.i("tag99","Basket  Fragment LY")
         super.onResume()
-        var bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        if (bottomNavigationView != null) {
-//            var b2 = bottomNavigationView.menu.findItem(R.id.basket_menu)
-//            b2.isChecked = true
-        }
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        var button =
-//            activity?.findViewById<Button>(R.id.button)
-//        var linearText =
-//            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
-//        button?.visibility= View.VISIBLE
-//        linearText?.visibility= View.VISIBLE
-//        arguments?.let {
-//            columnCount = it.getInt(columnCount.toString())
-//        }
-
+        basketViewModel.getProductsFromBasket()
+        updateListData()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)//
-        val view = inflater.inflate(R.layout.fragment_basket, container, false)
-        //recyclerview.adapter = adapter
+    ): View {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
 
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val args: TypeFragmentArgs by navArgs()
-//        val type =  args.arg
 
-
-        basketViewModel=
+        basketViewModel =
             ViewModelProvider(
                 this,
                 BasketViewModelFactory()
             )[BasketViewModel::class.java]
-        //TypeViewModel(type)
 
-//        typeViewModel=
-//            ViewModelProvider(
-//                this,
-//                TypeViewModelFactory(type)
-//            )[TypeViewModel::class.java]
-        val view3= view.findViewById<RecyclerView>(R.id.list_product_basket)
-        if (view3 is RecyclerView) {
-            with(view3) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, 1)
+        binding.listProductBasket.layoutManager =
+            LinearLayoutManager(context)
+        adapter = BasketRecyclerViewAdapter(object : ProductBasketActionListener {
+            override fun onProductDelete(productBasket: ProductBasket) {
+                basketViewModel.removeProductFromBasket(productBasket)
+                data.remove(productBasket)
+                updateListData()
+            }
+
+            override fun onUserDetails(productBasket: ProductBasket) {
+                val action = productBasket.code?.let { it1 ->
+                    BasketFragmentDirections.actionBasketFragment2ToProductDetailsFragment2(it1)
                 }
-                adapter = BasketRecyclerViewAdapter(data,view3)
+                if (action != null) {
+                    Navigation.findNavController(view).navigate(action)
+                }
             }
-        }
-
-        //typeViewModel.getTypes()
-        basketViewModel.get()
-        basketViewModel.basketProductFormState.observe(viewLifecycleOwner, Observer {
-                productBasket ->
-            if(productBasket==null){
-                return@Observer
-            }
-            productBasket?.let {
-                updateUiWithProduct(it,view3)
-            }
-
         })
+
+        binding.listProductBasket.adapter = adapter
+
+        basketViewModel.getProductsFromBasket()
+        basketViewModel.basketProductFormState.observe(
+            viewLifecycleOwner,
+            Observer { productBasket ->
+                if (productBasket == null) {
+                    return@Observer
+                }
+                updateUiWithProduct(productBasket)
+            })
     }
 
 
 
-    private fun updateUiWithProduct(product: ProductBasket, view: View) {
+    private fun updateListData() {
+        adapter.productsBasket = data.toMutableList()
+    }
 
-        if(!constainBasketProduct(product)) {
+    private fun updateUiWithProduct(product: ProductBasket) {
+        if (!containBasketProduct(product)) {
             data.add(product)
+            updateListData()
         }
-        view.background = Color.WHITE.toDrawable()
-        if (view is RecyclerView) {
-            with(view) {
-                adapter?.notifyDataSetChanged()
-            }
-        }
+        binding.listProductBasket.background = Color.WHITE.toDrawable()
+
     }
 
-    private fun constainBasketProduct(product: ProductBasket): Boolean
-    {
-        for (pr in data)
-        {
-            if(pr.code.equals(product.code))
-            {
+    private fun containBasketProduct(product: ProductBasket): Boolean {
+        for (pr in data) {
+            if (pr.code.equals(product.code)) {
                 return true
             }
         }
         return false
     }
 
-    override fun onPause() {
-        super.onPause()
-//        var button =
-//            activity?.findViewById<Button>(R.id.button)
-//        var linearText =
-//            activity?.findViewById<LinearLayout>(R.id.linearLayoutTop)
-//        button?.visibility= View.GONE
-//        linearText?.visibility= View.GONE
-    }
 
 }
 

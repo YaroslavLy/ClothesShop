@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.clothesshop.data.BasketRepository
 import com.example.clothesshop.data.ProductRepository
 import com.example.clothesshop.data.Resource
+import com.example.clothesshop.data.Result
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 
 class ProductViewModel(val productRepository: ProductRepository,val basketRepository: BasketRepository) : ViewModel() {
@@ -58,18 +60,18 @@ class ProductViewModel(val productRepository: ProductRepository,val basketReposi
 
     fun getBasketProducts()
     {
-
-        basketRepository.getProducts()
-            .onEach { resource ->
+        viewModelScope.launch {
+            basketRepository.getProducts().collect{ resource ->
                 when (resource) {
-                    is Resource.Success -> {
+                    is Result.Success -> {
                         _productBasketForm.value = resource.data!!
                     }
-                    is Resource.Error -> {
+                    is Result.Error -> {
                         //Log.w(TAG, resource.error!!)
                     }
                 }
             }
-            .launchIn(viewModelScope)
+        }
+
     }
 }

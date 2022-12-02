@@ -59,7 +59,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/button_basket"
+                android:id="@+id/button_basket_delete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
