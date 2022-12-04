@@ -1,7 +1,7 @@
 package com.example.clothesshop.data
 
 import android.util.Log
-import com.example.clothesshop.Constants
+import com.example.clothesshop.utils.Constants
 import com.example.clothesshop.model.Product
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,6 +20,7 @@ class ProductRepository(val path: String="") {
                 for (dataSn in dataSnapshot.children) {
                     var item = dataSn.getValue(Product::class.java)
                     if (item != null) {
+
                         val product = Product(
                             image = item.image,
                             name = item.name,

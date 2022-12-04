@@ -9,9 +9,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.clothesshop.GlideApp
 import com.example.clothesshop.R
 import com.example.clothesshop.model.ProductBasket
+
 
 interface ProductBasketActionListener {
 
@@ -70,6 +74,7 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
         GlideApp.with(holder.imageView.context)
             .load(ItemsViewModel.image)
             .error(R.drawable.ic_baseline_autorenew_24)
+            .apply(RequestOptions.bitmapTransform( RoundedCorners(14)))
             .into(holder.imageView)
 
         holder.buttonBasket.setOnClickListener {

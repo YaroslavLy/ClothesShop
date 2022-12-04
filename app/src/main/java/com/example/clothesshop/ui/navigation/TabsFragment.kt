@@ -72,6 +72,8 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
         val badge = bottomNavigationView.getOrCreateBadge(R.id.basket_graph)
         badge.isVisible = true
         badge.number = count
+        if(count == 0)
+            badge.isVisible=false
         badge.backgroundColor = context?.let { ContextCompat.getColor(it, R.color.green) }!!
     }
 

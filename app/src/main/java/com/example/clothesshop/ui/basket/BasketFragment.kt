@@ -1,19 +1,24 @@
 package com.example.clothesshop.ui.basket
 
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothesshop.databinding.FragmentBasketBinding
 import com.example.clothesshop.model.ProductBasket
+import com.example.clothesshop.ui.navigation.TabsFragmentDirections
+import com.example.clothesshop.ui.navigation.TabsViewModel
+import com.example.clothesshop.utils.parsers.PriceParser
 
 
 class BasketFragment : Fragment() {
@@ -25,10 +30,13 @@ class BasketFragment : Fragment() {
     private var _binding: FragmentBasketBinding? = null
     private val binding get() = _binding!!
 
+    private var countProductsInBasketmy =0
+
     override fun onResume() {
         super.onResume()
+        //data = ArrayList<ProductBasket>()
         basketViewModel.getProductsFromBasket()
-        updateListData()
+        updateData()
     }
 
     override fun onCreateView(
@@ -56,7 +64,7 @@ class BasketFragment : Fragment() {
             override fun onProductDelete(productBasket: ProductBasket) {
                 basketViewModel.removeProductFromBasket(productBasket)
                 data.remove(productBasket)
-                updateListData()
+                updateData()
             }
 
             override fun onUserDetails(productBasket: ProductBasket) {
@@ -80,19 +88,61 @@ class BasketFragment : Fragment() {
                 }
                 updateUiWithProduct(productBasket)
             })
+
+
+        basketViewModel.tabsFormState.observe(viewLifecycleOwner, Observer { countProductsInBasket ->
+            if (countProductsInBasket == null) {
+                return@Observer
+            }
+            countProductsInBasketmy = countProductsInBasket
+        })
+
+
+        binding.order.setOnClickListener {
+            //TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment()
+            val navHostFragment = parentFragment as NavHostFragment?
+            val parent = navHostFragment!!.parentFragment
+            if (parent != null) {
+                parent.view?.let { it1 -> Navigation.findNavController(it1).navigate(TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment()) }
+            }
+
+        }
     }
 
 
+    private fun updateData(){
+        updatePriceData()
+        updateListData()
+    }
+
+    private fun updatePriceData(){
+        val listPrice = mutableListOf<String>()
+        for (s in data) {
+            s.price?.let { listPrice.add(it) }
+        }
+        binding.sumPrice.text= PriceParser.sumPrise(listPrice)
+        if (countProductsInBasketmy == 0){
+            binding.sumPrice.text="0,0 ZŁ"
+        }
+        binding.order.isEnabled = countProductsInBasketmy != 0
+    }
 
     private fun updateListData() {
-        adapter.productsBasket = data.toMutableList()
+        if (countProductsInBasketmy == 0) {
+            data = ArrayList<ProductBasket>()
+            adapter.productsBasket = data.toMutableList()
+        }
+        else
+           adapter.productsBasket = data.toMutableList()
     }
 
     private fun updateUiWithProduct(product: ProductBasket) {
+
         if (!containBasketProduct(product)) {
             data.add(product)
-            updateListData()
+            updateData()
         }
+        binding.order.isEnabled = countProductsInBasketmy != 0
         binding.listProductBasket.background = Color.WHITE.toDrawable()
 
     }

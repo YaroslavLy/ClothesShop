@@ -13,6 +13,19 @@ import kotlinx.coroutines.launch
 
 class BasketViewModel(val basketRepository: BasketRepository): ViewModel() {
 
+
+    // todo #2 create base View Model
+    private val _tabsForm = MutableLiveData<Int>()
+    val tabsFormState: LiveData<Int> = _tabsForm
+
+    init {
+        viewModelScope.launch {
+            basketRepository.getCountProductsInBasket().collect { count ->
+                _tabsForm.value = count
+            }
+        }
+    }
+
     private val _basketProductForm = MutableLiveData<ProductBasket>()
     val basketProductFormState: LiveData<ProductBasket> = _basketProductForm
 

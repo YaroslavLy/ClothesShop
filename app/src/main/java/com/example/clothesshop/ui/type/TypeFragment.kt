@@ -12,13 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clothesshop.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
-import com.example.clothesshop.Constants
-import com.example.clothesshop.Constants.KEY_FOLDER
+import com.example.clothesshop.utils.Constants
+import com.example.clothesshop.utils.Constants.KEY_FOLDER
 import com.example.clothesshop.model.Type
-import com.example.clothesshop.ui.category.CategoryViewModel
-import com.example.clothesshop.ui.category.CategoryViewModelFactory
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class TypeFragment : Fragment() {

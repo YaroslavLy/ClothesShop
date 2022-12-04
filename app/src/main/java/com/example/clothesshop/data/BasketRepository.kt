@@ -1,7 +1,6 @@
 package com.example.clothesshop.data
 
 import android.util.Log
-import com.example.clothesshop.Constants
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
 import com.google.firebase.database.DataSnapshot

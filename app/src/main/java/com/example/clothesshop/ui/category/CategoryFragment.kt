@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.clothesshop.Constants.KEY_FOLDER
-import com.example.clothesshop.Constants.SHARED_PREFS_CATEGORY
+import com.example.clothesshop.utils.Constants.KEY_FOLDER
+import com.example.clothesshop.utils.Constants.SHARED_PREFS_CATEGORY
 import com.example.clothesshop.GlideApp
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
