@@ -2,58 +2,151 @@ package com.example.clothesshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.example.clothesshop.databinding.ActivityMainBinding
 import com.example.clothesshop.model.Type
 import com.example.clothesshop.ui.category.CategoryFragment
 import com.example.clothesshop.ui.login.LoginFragment
+import com.example.clothesshop.ui.navigation.TabsFragment
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
 
+    //private val viewModel by viewModelCreator { MainActivityViewModel(Repositories.accountsRepository) }
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            var fragent =
-                supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
-            when (it.itemId) {
-                R.id.main_menu -> {
-                    fragent.view?.let { it1 ->
-                        Navigation.findNavController(it1)
-                            .navigate(R.id.categoryFragment)
-                    }
-                }
-                R.id.catalog_menu -> fragent.view?.let { it1 ->
-                    Navigation.findNavController(it1)
-                        .navigate(R.id.typeFragment)
-                }
-                R.id.basket_menu -> fragent.view?.let { it1 ->
-                    Navigation.findNavController(it1)
-                        .navigate(R.id.basketFragment)
-                }
+    // nav controller of the current screen
+    private var navController: NavController? = null
 
-//                else -> {
-//
-//
-//                }
+    private val topLevelDestinations = setOf(getTabsDestination(), getSignInDestination())
 
-            }
-            true
-
+    // fragment listener is sued for tracking current nav controller
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if (f is TabsFragment || f is NavHostFragment) return
+            onNavControllerActivated(f.findNavController())
         }
-
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        //setSupportActionBar(binding.toolbar)
+
+        // preparing root nav controller
+        val navController = getRootNavController()
+        prepareRootNavController(isSignedIn(), navController)
+        onNavControllerActivated(navController)
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+
+        // updating username in the toolbar
+//        viewModel.username.observe(this) {
+//            binding.usernameTextView.text = it
+//        }
+    }
+
+    override fun onDestroy() {
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
+        navController = null
+        super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (isStartDestination(navController?.currentDestination)) {
+            super.onBackPressed()
+        } else {
+            navController?.popBackStack()
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean = (navController?.navigateUp() ?: false) || super.onSupportNavigateUp()
+
+    private fun prepareRootNavController(isSignedIn: Boolean, navController: NavController) {
+        val graph = navController.navInflater.inflate(getMainNavigationGraphId())
+        graph.setStartDestination(
+            if (isSignedIn) {
+                getTabsDestination()
+            } else {
+                getSignInDestination()
+            }
+        )
+        navController.graph = graph
+    }
+
+    private fun onNavControllerActivated(navController: NavController) {
+        if (this.navController == navController) return
+        this.navController?.removeOnDestinationChangedListener(destinationListener)
+        navController.addOnDestinationChangedListener(destinationListener)
+        this.navController = navController
+    }
+
+    private fun getRootNavController(): NavController {
+        val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainer2) as NavHostFragment
+        return navHost.navController
+    }
+
+    private val destinationListener = NavController.OnDestinationChangedListener { _, destination, arguments ->
+        //supportActionBar?.title = prepareTitle(destination.label, arguments)
+        supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
+    }
+
+    private fun isStartDestination(destination: NavDestination?): Boolean {
+        if (destination == null) return false
+        val graph = destination.parent ?: return false
+        val startDestinations = topLevelDestinations + graph.startDestinationId
+        return startDestinations.contains(destination.id)
+    }
+
+//    private fun prepareTitle(label: CharSequence?, arguments: Bundle?): String {
+//
+//        // code for this method has been copied from Google sources :)
+//
+//        if (label == null) return ""
+//        val title = StringBuffer()
+//        val fillInPattern = Pattern.compile("\\{(.+?)\\}")
+//        val matcher = fillInPattern.matcher(label)
+//        while (matcher.find()) {
+//            val argName = matcher.group(1)
+//            if (arguments != null && arguments.containsKey(argName)) {
+//                matcher.appendReplacement(title, "")
+//                title.append(arguments[argName].toString())
+//            } else {
+//                throw IllegalArgumentException(
+//                    "Could not find $argName in $arguments to fill label $label"
+//                )
+//            }
+//        }
+//        matcher.appendTail(title)
+//        return title.toString()
+//    }
+
+    private fun isSignedIn(): Boolean {
+        val bundle = intent.extras ?: throw IllegalStateException("No required arguments")
+        val args = MainActivityArgs.fromBundle(bundle)
+        return args.isSignedIn
+    }
+
+    private fun getMainNavigationGraphId(): Int = R.navigation.main_graph
+
+    private fun getTabsDestination(): Int = R.id.tabsFragmentGraph
+
+    private fun getSignInDestination(): Int = R.id.loginFragment// signInFragment
 
 }

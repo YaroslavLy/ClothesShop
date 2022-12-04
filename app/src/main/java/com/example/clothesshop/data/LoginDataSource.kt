@@ -20,12 +20,17 @@ class LoginDataSource {
             delay(1000L)
             val user= auth.currentUser
             if(user != null) {
-                return Result.Success(
-                    LoggedInUser(
-                        user.uid,
-                        username
+                if(user.isEmailVerified) {
+                    return Result.Success(
+                        LoggedInUser(
+                            user.uid,
+                            username
+                        )
                     )
-                )
+                }else
+                {
+                    return Result.Error(IOException("Poczta nie jest potwierdzona"))
+                }
             }else
             {
                 return Result.Error(IOException("Error logging in"))

@@ -12,6 +12,17 @@
     android:paddingTop="@dimen/fragment_vertical_margin"
     tools:context=".ui.login.LoginFragment">
 
+    <Button
+        android:id="@+id/sing_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_sign_up"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintStart_toStartOf="@+id/login"
+        />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
@@ -40,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="1"
+
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,6 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="1"
+            android:inputType="textWebPassword"
+
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,5 +114,7 @@
         app:layout_constraintEnd_toEndOf="@+id/login"
         app:layout_constraintStart_toStartOf="@+id/login"
         tools:layout_editor_absoluteY="827dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

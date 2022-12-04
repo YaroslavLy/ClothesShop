@@ -1,9 +1,6 @@
 package com.example.clothesshop.ui.product
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,69 +8,113 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clothesshop.GlideApp
+
 import com.example.clothesshop.R
 import com.example.clothesshop.model.Product
+import com.example.clothesshop.model.ProductBasket
 
-class ProductRecyclerViewAdapter(private val mList: List<Product>) :
+import com.google.firebase.database.FirebaseDatabase
+
+
+class ProductRecyclerViewAdapter(
+    private val mList: List<Product>,
+    private val mBasketList: MutableList<ProductBasket>,
+    private val view1: RecyclerView
+) :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>() {
 
     //val context: Context
-
+    lateinit var view: View
+     var idProducts = mutableListOf<String>()
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
-        val view = LayoutInflater.from(parent.context)
+         view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_product, parent, false)
 
         return ViewHolder(view)
     }
+
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val ItemsViewModel = mList[position]
 
-        // sets the image to the imageview from our itemHolder class
-        //ItemsViewModel.image
-        //holder.imageView.setImageResource(ItemsViewModel.image)
-
-        // sets the text to the textview from our itemHolder class
-        //holder.textView.text = ItemsViewModel.text
 
         holder.textName.text=ItemsViewModel.name
         //holder.textCode.text=ItemsViewModel.code
         holder.textPrice.text=ItemsViewModel.price
-        DownloadImageFromInternet(holder.imageView).execute(ItemsViewModel.image)
+
+        GlideApp.with(holder.imageView.context)
+            .load(ItemsViewModel.image)
+            .error(R.drawable.ic_baseline_autorenew_24)
+            .into(holder.imageView)
         holder.linearLayout.setOnClickListener{
             Log.i("tag","Hice")
+
+            val action = ItemsViewModel.code?.let { it1 ->
+                ProductFragmentDirections.actionProductFragment3ToProductDetailsFragment4(it1)
+            }
+            if (action != null) {
+                Navigation.findNavController(view = view1).navigate(action)
+            }
+
+        }
+        if(ifElementInBasket(ItemsViewModel))
+        {
+            holder.buttonBasket.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
+        }
+        holder.buttonBasket.setOnClickListener {
+            //TODO move to Repo
+            val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/def")
+
+
+            if(!ifElementInBasket(ItemsViewModel)) {
+                val t1 = ItemsViewModel.copy()
+                firebaseDatabase.push().setValue(t1)
+                holder.buttonBasket.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
+            }else
+            {
+                val t1 = ItemsViewModel.copy()
+                // the best code
+                t1.code?.let { it1 -> getItemByCode(it1).id?.let { it1 -> firebaseDatabase.child(it1).removeValue() } }
+                //mBasketList.remove(t1.code?.let { it1 -> getItemByCode(it1) })
+                //ProductFragment.basketData =
+                ProductFragment.basketData.remove(getItemByCode(t1.code!!))
+                holder.buttonBasket.setImageResource(R.drawable.ic_baseline_add_shopping_cart_24)
+            }
+
         }
 
     }
 
-    @SuppressLint("StaticFieldLeak")
-    @Suppress("DEPRECATION")
-    private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
-        init {
-            //Toast.makeText(context, "Please wait, it may take a few minute...",     Toast.LENGTH_SHORT).show()
+    private fun getItemByCode(code: String):ProductBasket{
+        for (productBasket in mBasketList)
+        {
+            if(productBasket.code.equals(code))
+                return productBasket
         }
-        override fun doInBackground(vararg urls: String): Bitmap? {
-            val imageURL = urls[0]
-            var image: Bitmap? = null
-            try {
-                val `in` = java.net.URL(imageURL).openStream()
-                image = BitmapFactory.decodeStream(`in`)
-            }
-            catch (e: Exception) {
-                Log.e("Error Message", e.message.toString())
-                e.printStackTrace()
-            }
-            return image
+        return ProductBasket()
+    }
+
+    private fun ifElementInBasket(product: Product):Boolean
+    {
+        for (productBasket in mBasketList) {
+            Log.i("TAR", productBasket.code.toString())
         }
-        override fun onPostExecute(result: Bitmap?) {
-            imageView.setImageBitmap(result)
+        Log.i("TAR","----------------------")
+        for (productBasket in mBasketList)
+        {
+            //Log.i("TAR",mBasketList.toString())
+            if(productBasket.code.equals(product.code))
+                return true
         }
+        return false
     }
 
     // return the number of the items in the list
@@ -90,7 +131,7 @@ class ProductRecyclerViewAdapter(private val mList: List<Product>) :
        // val textCode: TextView = itemView.findViewById(R.id.textCode)
         val textPrice: TextView = itemView.findViewById(R.id.textPrice)
         val linearLayout: LinearLayout = itemView.findViewById(R.id.linearLayout)
-
+        val buttonBasket: ImageView = itemView.findViewById(R.id.button_basket)
 
     }
 }

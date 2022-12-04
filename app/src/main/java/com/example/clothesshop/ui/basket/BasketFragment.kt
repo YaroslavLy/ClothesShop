@@ -1,33 +1,161 @@
 package com.example.clothesshop.ui.basket
 
-import androidx.lifecycle.ViewModelProvider
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.clothesshop.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clothesshop.databinding.FragmentBasketBinding
+import com.example.clothesshop.model.ProductBasket
+import com.example.clothesshop.ui.navigation.TabsFragmentDirections
+import com.example.clothesshop.ui.navigation.TabsViewModel
+import com.example.clothesshop.utils.parsers.PriceParser
+
 
 class BasketFragment : Fragment() {
+    private lateinit var basketViewModel: BasketViewModel
+    private var data = ArrayList<ProductBasket>()
 
-    companion object {
-        fun newInstance() = BasketFragment()
+    private lateinit var adapter: BasketRecyclerViewAdapter
+
+    private var _binding: FragmentBasketBinding? = null
+    private val binding get() = _binding!!
+
+    private var countProductsInBasketmy =0
+
+    override fun onResume() {
+        super.onResume()
+        //data = ArrayList<ProductBasket>()
+        basketViewModel.getProductsFromBasket()
+        updateData()
     }
-
-    private lateinit var viewModel: BasketViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_basket, container, false)
+    ): View {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(BasketViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        basketViewModel =
+            ViewModelProvider(
+                this,
+                BasketViewModelFactory()
+            )[BasketViewModel::class.java]
+
+        binding.listProductBasket.layoutManager =
+            LinearLayoutManager(context)
+        adapter = BasketRecyclerViewAdapter(object : ProductBasketActionListener {
+            override fun onProductDelete(productBasket: ProductBasket) {
+                basketViewModel.removeProductFromBasket(productBasket)
+                data.remove(productBasket)
+                updateData()
+            }
+
+            override fun onUserDetails(productBasket: ProductBasket) {
+                val action = productBasket.code?.let { it1 ->
+                    BasketFragmentDirections.actionBasketFragment2ToProductDetailsFragment2(it1)
+                }
+                if (action != null) {
+                    Navigation.findNavController(view).navigate(action)
+                }
+            }
+        })
+
+        binding.listProductBasket.adapter = adapter
+
+        basketViewModel.getProductsFromBasket()
+        basketViewModel.basketProductFormState.observe(
+            viewLifecycleOwner,
+            Observer { productBasket ->
+                if (productBasket == null) {
+                    return@Observer
+                }
+                updateUiWithProduct(productBasket)
+            })
+
+
+        basketViewModel.tabsFormState.observe(viewLifecycleOwner, Observer { countProductsInBasket ->
+            if (countProductsInBasket == null) {
+                return@Observer
+            }
+            countProductsInBasketmy = countProductsInBasket
+        })
+
+
+        binding.order.setOnClickListener {
+            //TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment()
+            val navHostFragment = parentFragment as NavHostFragment?
+            val parent = navHostFragment!!.parentFragment
+            if (parent != null) {
+                parent.view?.let { it1 -> Navigation.findNavController(it1).navigate(TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment()) }
+            }
+
+        }
     }
+
+
+    private fun updateData(){
+        updatePriceData()
+        updateListData()
+    }
+
+    private fun updatePriceData(){
+        val listPrice = mutableListOf<String>()
+        for (s in data) {
+            s.price?.let { listPrice.add(it) }
+        }
+        binding.sumPrice.text= PriceParser.sumPrise(listPrice)
+        if (countProductsInBasketmy == 0){
+            binding.sumPrice.text="0,0 ZŁ"
+        }
+        binding.order.isEnabled = countProductsInBasketmy != 0
+    }
+
+    private fun updateListData() {
+        if (countProductsInBasketmy == 0) {
+            data = ArrayList<ProductBasket>()
+            adapter.productsBasket = data.toMutableList()
+        }
+        else
+           adapter.productsBasket = data.toMutableList()
+    }
+
+    private fun updateUiWithProduct(product: ProductBasket) {
+
+        if (!containBasketProduct(product)) {
+            data.add(product)
+            updateData()
+        }
+        binding.order.isEnabled = countProductsInBasketmy != 0
+        binding.listProductBasket.background = Color.WHITE.toDrawable()
+
+    }
+
+    private fun containBasketProduct(product: ProductBasket): Boolean {
+        for (pr in data) {
+            if (pr.code.equals(product.code)) {
+                return true
+            }
+        }
+        return false
+    }
+
 
 }
 
