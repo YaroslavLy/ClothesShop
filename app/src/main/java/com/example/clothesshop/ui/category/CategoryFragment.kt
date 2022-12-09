@@ -86,6 +86,7 @@ class CategoryFragment : Fragment() {
     private fun setCategory(categoryRelativeLayout: RelativeLayout, category: Category) {
         for (element in categoryRelativeLayout) {
             if (element is ImageView) {
+                //todo move code load image
                 GlideApp.with(requireContext())
                     .load(category.url_image)
                     .error(R.drawable.ic_baseline_autorenew_24)
@@ -96,6 +97,7 @@ class CategoryFragment : Fragment() {
             }
         }
         categoryRelativeLayout.setOnClickListener {
+            //todo pass argument to graph catalog_graph to the TypeFragment (replace sharedPreferences)
             val sharedPreferences =
                 context?.getSharedPreferences(SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
             sharedPreferences?.edit()?.putString(KEY_FOLDER, category.name_folder)?.apply()

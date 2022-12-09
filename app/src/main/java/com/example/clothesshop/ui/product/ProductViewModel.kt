@@ -64,7 +64,7 @@ class ProductViewModel(val productRepository: ProductRepository,val basketReposi
             basketRepository.getProducts().collect{ resource ->
                 when (resource) {
                     is Result.Success -> {
-                        _productBasketForm.value = resource.data!!
+                        _productBasketForm.value = resource.data!! as ProductBasket
                     }
                     is Result.Error -> {
                         //Log.w(TAG, resource.error!!)

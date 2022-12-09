@@ -5,56 +5,74 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothesshop.R
+import com.example.clothesshop.databinding.FragmentMoreBinding
+import com.example.clothesshop.databinding.FragmentOrderBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MoreFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MoreFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var adapter: MoreRecyclerViewAdapter
+
+    private val moreList =
+        mutableListOf(
+            MoreItem(1, R.drawable.ic_more_orders, "Historia Zamówień"),
+            MoreItem(2, R.drawable.ic_more_help, "Pomoc i Kontakt"),
+            MoreItem(3, R.drawable.ic_more_privavy_and_policy, "Polityka Prywatności"),
+            MoreItem(4, R.drawable.ic_more_terms, "Zasady i Warunki")
+        )
+
+    private var _binding: FragmentMoreBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_more, container, false)
+        _binding = FragmentMoreBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MoreFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MoreFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private lateinit var auth: FirebaseAuth
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.image.setImageResource(R.drawable.ic_baseline_account_box_24)
+
+        // todo move to repo
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            binding.emailAccount.text = currentUser.email
+        }
+
+        binding.moreList.layoutManager = LinearLayoutManager(context)
+        adapter= MoreRecyclerViewAdapter(
+            object : MoreItemActionListener{
+                override fun onMoreClick(moreItem: MoreItem) {
+                    if(moreItem.id == 1){
+                           findNavController().navigate(R.id.action_moreFragment_to_orderListFragment)
+                    }
+                    if(moreItem.id == 2){
+                        findNavController().navigate(R.id.action_moreFragment_to_helpFragment)
+                    }
+                    if(moreItem.id == 3){
+                        findNavController().navigate(R.id.action_moreFragment_to_privacyPolicyFragment)
+                    }
+                    if(moreItem.id == 4){
+                        findNavController().navigate(R.id.action_moreFragment_to_termsAndConditionsFragment)
+                    }
                 }
+
             }
+        )
+        binding.moreList.adapter=adapter
+        adapter.moreList = moreList.toMutableList()
+
     }
 }

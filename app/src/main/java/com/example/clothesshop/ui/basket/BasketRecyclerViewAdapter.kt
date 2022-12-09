@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.clothesshop.GlideApp
@@ -21,7 +20,7 @@ interface ProductBasketActionListener {
 
     fun onProductDelete(productBasket: ProductBasket)
 
-    fun onUserDetails(productBasket: ProductBasket)
+    fun onProductDetails(productBasket: ProductBasket)
 
 }
 
@@ -53,7 +52,6 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
     var productsBasket: List<ProductBasket> = emptyList()
         set(newValue) {
             val diffCallback = ProductBasketDiffCallback(field, newValue)
-            Log.i("TaG32",field.size.toString() +" "+ newValue.size.toString())
             val diffResult = DiffUtil.calculateDiff(diffCallback)
             field = newValue
             diffResult.dispatchUpdatesTo(this)
@@ -66,25 +64,23 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ItemsViewModel = productsBasket[position]
+        val productBasket = productsBasket[position]
 
-        holder.textName.text=ItemsViewModel.name
-        holder.textPrice.text=ItemsViewModel.price
+        holder.textName.text=productBasket.name
+        holder.textPrice.text=productBasket.price
 
         GlideApp.with(holder.imageView.context)
-            .load(ItemsViewModel.image)
+            .load(productBasket.image)
             .error(R.drawable.ic_baseline_autorenew_24)
             .apply(RequestOptions.bitmapTransform( RoundedCorners(14)))
             .into(holder.imageView)
 
         holder.buttonBasket.setOnClickListener {
-            val productBasket = ItemsViewModel
             actionListener.onProductDelete(productBasket)
         }
 
         holder.linearLayout.setOnClickListener {
-            val productBasket = ItemsViewModel
-            actionListener.onUserDetails(productBasket)
+            actionListener.onProductDetails(productBasket)
         }
 
     }
@@ -93,7 +89,7 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
         return productsBasket.size
     }
 
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+    class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val imageView: ImageView = itemView.findViewById(R.id.imageview)
 
         val textName: TextView = itemView.findViewById(R.id.textName)

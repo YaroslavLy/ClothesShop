@@ -1,6 +1,6 @@
 package com.example.clothesshop.model
 
-class ProductBasket(
+data class ProductBasket(
     val id: String? = "",
     val image: String? = "",
     val name: String? = "",
@@ -10,4 +10,10 @@ class ProductBasket(
     val type: String? = "",
     val description: String? = ""
 ) {
+    override fun equals(other: Any?): Boolean {
+        return if (other is ProductBasket)
+            this.code == other.code
+        else
+            false
+    }
 }

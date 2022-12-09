@@ -12,12 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clothesshop.databinding.FragmentBasketBinding
 import com.example.clothesshop.model.ProductBasket
-import com.example.clothesshop.ui.navigation.TabsFragmentDirections
-import com.example.clothesshop.ui.navigation.TabsViewModel
+import com.example.clothesshop.ui.tabs.TabsFragmentDirections
 import com.example.clothesshop.utils.parsers.PriceParser
 
 
@@ -32,12 +30,6 @@ class BasketFragment : Fragment() {
 
     private var countProductsInBasketmy =0
 
-    override fun onResume() {
-        super.onResume()
-        //data = ArrayList<ProductBasket>()
-        basketViewModel.getProductsFromBasket()
-        updateData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +59,7 @@ class BasketFragment : Fragment() {
                 updateData()
             }
 
-            override fun onUserDetails(productBasket: ProductBasket) {
+            override fun onProductDetails(productBasket: ProductBasket) {
                 val action = productBasket.code?.let { it1 ->
                     BasketFragmentDirections.actionBasketFragment2ToProductDetailsFragment2(it1)
                 }
@@ -95,11 +87,10 @@ class BasketFragment : Fragment() {
                 return@Observer
             }
             countProductsInBasketmy = countProductsInBasket
+            updateData()
         })
 
-
         binding.order.setOnClickListener {
-            //TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment()
             val navHostFragment = parentFragment as NavHostFragment?
             val parent = navHostFragment!!.parentFragment
             if (parent != null) {
@@ -115,47 +106,37 @@ class BasketFragment : Fragment() {
         updateListData()
     }
 
-    private fun updatePriceData(){
+    private fun updatePriceData() {
+        if (countProductsInBasketmy == 0) {
+            binding.sumPrice.text = "0,0 ZŁ"
+            binding.order.isEnabled = false
+            return
+        }
+
         val listPrice = mutableListOf<String>()
         for (s in data) {
             s.price?.let { listPrice.add(it) }
         }
-        binding.sumPrice.text= PriceParser.sumPrise(listPrice)
-        if (countProductsInBasketmy == 0){
-            binding.sumPrice.text="0,0 ZŁ"
-        }
-        binding.order.isEnabled = countProductsInBasketmy != 0
+        binding.sumPrice.text = PriceParser.sumPrise(listPrice)
+        binding.order.isEnabled = true
     }
 
     private fun updateListData() {
-        if (countProductsInBasketmy == 0) {
+        if (countProductsInBasketmy == 0)
             data = ArrayList<ProductBasket>()
-            adapter.productsBasket = data.toMutableList()
-        }
-        else
-           adapter.productsBasket = data.toMutableList()
+
+        adapter.productsBasket = data.toMutableList()
     }
 
     private fun updateUiWithProduct(product: ProductBasket) {
-
-        if (!containBasketProduct(product)) {
+        if (!data.contains(product)) {
             data.add(product)
             updateData()
         }
         binding.order.isEnabled = countProductsInBasketmy != 0
+        // todo replace change background (bind to countProductsInBasketmy )
         binding.listProductBasket.background = Color.WHITE.toDrawable()
-
     }
-
-    private fun containBasketProduct(product: ProductBasket): Boolean {
-        for (pr in data) {
-            if (pr.code.equals(product.code)) {
-                return true
-            }
-        }
-        return false
-    }
-
 
 }
 
