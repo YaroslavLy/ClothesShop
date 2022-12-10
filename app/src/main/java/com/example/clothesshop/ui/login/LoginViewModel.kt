@@ -8,6 +8,7 @@ import com.example.clothesshop.data.LoginRepository
 import com.example.clothesshop.data.Result
 
 import com.example.clothesshop.R
+import com.example.clothesshop.model.LoggedInUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,8 +31,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             val result = loginRepository.login(username, password)
 
             if (result is Result.Success) {
+                val t = result.data as  LoggedInUser
                 _loginResult.postValue(
-                    LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                    LoginResult(success = LoggedInUserView(displayName = t.displayName))
                 )
             } else {
                 _loginResult.postValue(LoginResult(error = R.string.login_failed))

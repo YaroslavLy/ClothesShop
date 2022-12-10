@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabsFragmentGraph"
-        android:name="com.example.clothesshop.ui.navigation.TabsFragment"
+        android:name="com.example.clothesshop.ui.tabs.TabsFragment"
         android:label="TabsFragment" >
         <action
             android:id="@+id/action_tabsFragment_to_loginFragment"

@@ -1,11 +1,10 @@
-package com.example.clothesshop.ui.navigation
+package com.example.clothesshop.ui.tabs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clothesshop.data.BasketRepository
-import com.example.clothesshop.model.ProductBasket
 import kotlinx.coroutines.launch
 
 class TabsViewModel(basketRepository: BasketRepository):ViewModel() {
