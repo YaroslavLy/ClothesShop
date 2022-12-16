@@ -75,6 +75,7 @@ class LoginFragment : Fragment() {
         val usernameEditText = binding.username
         val passwordEditText = binding.password
         val loginButton = binding.login
+        val loginAnonymousButton = binding.loginAnonymous
         val loadingProgressBar = binding.loading
         val singUp = binding.singUp
 
@@ -151,6 +152,11 @@ class LoginFragment : Fragment() {
                 )
             }
 
+        }
+
+        loginAnonymousButton.setOnClickListener {
+            loadingProgressBar.visibility = View.VISIBLE
+            loginViewModel.loginAnonymous()
         }
     }
 

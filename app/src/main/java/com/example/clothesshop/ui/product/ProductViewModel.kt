@@ -44,7 +44,35 @@ class ProductViewModel(val productRepository: ProductRepository,val basketReposi
     val productBasketFormState: LiveData<ProductBasket> = _productBasketForm
 
     init {
-        productRepository.getProducts()
+//        productRepository.getProducts()
+//            .onEach { resource ->
+//                when (resource) {
+//                    is Resource.Success -> {
+//                        _productForm.value = resource.data!!
+//                    }
+//                    is Resource.Error -> {
+//                        //Log.w(TAG, resource.error!!)
+//                    }
+//                }
+//            }
+//            .launchIn(viewModelScope)
+    }
+
+    fun getBasketProducts()
+    {
+//        viewModelScope.launch {
+//            basketRepository.getProducts().collect{ resource ->
+//                when (resource) {
+//                    is Result.Success -> {
+//                        _productBasketForm.value = resource.data!! as ProductBasket
+//                    }
+//                    is Result.Error -> {
+//                        //Log.w(TAG, resource.error!!)
+//                    }
+//                }
+//            }
+//        }
+                productRepository.getProducts()
             .onEach { resource ->
                 when (resource) {
                     is Resource.Success -> {
@@ -56,22 +84,6 @@ class ProductViewModel(val productRepository: ProductRepository,val basketReposi
                 }
             }
             .launchIn(viewModelScope)
-    }
-
-    fun getBasketProducts()
-    {
-        viewModelScope.launch {
-            basketRepository.getProducts().collect{ resource ->
-                when (resource) {
-                    is Result.Success -> {
-                        _productBasketForm.value = resource.data!! as ProductBasket
-                    }
-                    is Result.Error -> {
-                        //Log.w(TAG, resource.error!!)
-                    }
-                }
-            }
-        }
 
     }
 }

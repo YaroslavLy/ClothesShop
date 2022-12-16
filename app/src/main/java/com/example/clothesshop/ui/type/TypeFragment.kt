@@ -25,7 +25,6 @@ class TypeFragment : Fragment() {
 
     private lateinit var typeRecyclerViewAdapter: TypeRecyclerViewAdapter
 
-    private var columnCount = 3
     private lateinit var typeViewModel: TypeViewModel
     private var data = ArrayList<Type>()
 
@@ -54,7 +53,6 @@ class TypeFragment : Fragment() {
             )[TypeViewModel::class.java]
 
 
-
         binding.list.layoutManager = GridLayoutManager(context, 3)
         typeRecyclerViewAdapter = TypeRecyclerViewAdapter(object : TypeItemActionListener{
             override fun onTypeClick(type: Type) {
@@ -63,7 +61,7 @@ class TypeFragment : Fragment() {
         })
         binding.list.adapter = typeRecyclerViewAdapter
 
-        //typeViewModel.getTypes()
+        typeViewModel.getTypes()
         typeViewModel.typeFormState.observe(viewLifecycleOwner, Observer {
                 typeFormState ->
             if(typeFormState==null){
@@ -77,7 +75,8 @@ class TypeFragment : Fragment() {
     }
 
     private fun updateUiWithProduct(product: Type, view: View) {
-        data.add(product)
+        if(!data.contains(product))
+            data.add(product)
         typeRecyclerViewAdapter.typesList = data.toMutableList()
         if (view is RecyclerView) {
             with(view) {

@@ -23,6 +23,17 @@
         app:layout_constraintStart_toStartOf="@+id/login"
         />
 
+    <Button
+    android:id="@+id/login_anonymous"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/action_sign_up_anonymous"
+    android:textSize="10dp"
+    app:layout_constraintEnd_toEndOf="@+id/sing_up"
+    app:layout_constraintTop_toBottomOf="@+id/sing_up"
+    app:layout_constraintStart_toStartOf="@+id/sing_up"
+    />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"

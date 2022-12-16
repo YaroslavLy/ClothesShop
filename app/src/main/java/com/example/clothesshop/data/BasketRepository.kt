@@ -3,18 +3,28 @@ package com.example.clothesshop.data
 import android.util.Log
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+
+//todo replace get user uid
 class BasketRepository(val path: String="") {
+    private lateinit var auth: FirebaseAuth
 
     fun getProducts() : Flow<Result<ProductBasket>> = callbackFlow  {
-        val fbDB = FirebaseDatabase.getInstance().getReference("Basket/def")
+        auth = Firebase.auth
+        val user= auth.currentUser
+        val userId = user?.uid
+        val fbDB = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataSn in dataSnapshot.children) {
@@ -47,7 +57,10 @@ class BasketRepository(val path: String="") {
     }
 
     fun getCountProductsInBasket():Flow<Int> = callbackFlow {
-        val fbDB = FirebaseDatabase.getInstance().getReference("Basket/def")
+        auth = Firebase.auth
+        val user= auth.currentUser
+        val userId = user?.uid
+        val fbDB = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var count = dataSnapshot.childrenCount
@@ -67,7 +80,10 @@ class BasketRepository(val path: String="") {
     }
 
     fun removeProductInBasket(productBasket: ProductBasket){
-        val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/def")
+        auth = Firebase.auth
+        val user= auth.currentUser
+        val userId = user?.uid
+        val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         productBasket.id?.let { firebaseDatabase.child(it).removeValue() }
     }
 

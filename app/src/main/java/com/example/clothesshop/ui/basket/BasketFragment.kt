@@ -90,7 +90,10 @@ class BasketFragment : Fragment() {
             updateData()
         })
 
+        //todo move check if anonymous in repo
         binding.order.setOnClickListener {
+
+
             val navHostFragment = parentFragment as NavHostFragment?
             val parent = navHostFragment!!.parentFragment
             if (parent != null) {

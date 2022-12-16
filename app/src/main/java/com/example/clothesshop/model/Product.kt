@@ -8,4 +8,22 @@ data class Product(
     val in_bascked: Boolean? = false,
     val type: String? = "",
     val description: String? = ""
-)
+){
+    fun toProductBasket(): ProductBasket{
+       return ProductBasket("id",
+            image,
+            name,
+            price,
+            code,
+            in_bascked,
+            type,
+            description)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is Product){
+            return this.code==other.code
+        }else
+            return false
+    }
+}

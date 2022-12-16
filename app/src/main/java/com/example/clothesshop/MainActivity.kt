@@ -12,15 +12,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.clothesshop.databinding.ActivityMainBinding
 import com.example.clothesshop.ui.tabs.TabsFragment
+import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
 
-
-    //private val viewModel by viewModelCreator { MainActivityViewModel(Repositories.accountsRepository) }
-
-    // nav controller of the current screen
+    // navController current screen
     private var navController: NavController? = null
 
     private val topLevelDestinations = setOf(getTabsDestination(), getSignInDestination())
@@ -31,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
             if (f is TabsFragment || f is NavHostFragment) return
             onNavControllerActivated(f.findNavController())
+
         }
     }
 
@@ -40,14 +39,13 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //setSupportActionBar(binding.toolbar)
 
-        // preparing root nav controller
         val navController = getRootNavController()
         prepareRootNavController(isSignedIn(), navController)
         onNavControllerActivated(navController)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 
-        // updating username in the toolbar
+        // updating username toolbar
 //        viewModel.username.observe(this) {
 //            binding.usernameTextView.text = it
 //        }
@@ -83,8 +81,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun onNavControllerActivated(navController: NavController) {
         if (this.navController == navController) return
-        this.navController?.removeOnDestinationChangedListener(destinationListener)
-        navController.addOnDestinationChangedListener(destinationListener)
+        //this.navController?.removeOnDestinationChangedListener(destinationListener)
+        //navController.addOnDestinationChangedListener(destinationListener)
         this.navController = navController
     }
 
@@ -94,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val destinationListener = NavController.OnDestinationChangedListener { _, destination, arguments ->
-        //supportActionBar?.title = prepareTitle(destination.label, arguments)
+        supportActionBar?.title = prepareTitle(destination.label, arguments)
         supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
     }
 
@@ -105,28 +103,26 @@ class MainActivity : AppCompatActivity() {
         return startDestinations.contains(destination.id)
     }
 
-//    private fun prepareTitle(label: CharSequence?, arguments: Bundle?): String {
-//
-//        // code for this method has been copied from Google sources :)
-//
-//        if (label == null) return ""
-//        val title = StringBuffer()
-//        val fillInPattern = Pattern.compile("\\{(.+?)\\}")
-//        val matcher = fillInPattern.matcher(label)
-//        while (matcher.find()) {
-//            val argName = matcher.group(1)
-//            if (arguments != null && arguments.containsKey(argName)) {
-//                matcher.appendReplacement(title, "")
-//                title.append(arguments[argName].toString())
-//            } else {
-//                throw IllegalArgumentException(
-//                    "Could not find $argName in $arguments to fill label $label"
-//                )
-//            }
-//        }
-//        matcher.appendTail(title)
-//        return title.toString()
-//    }
+    private fun prepareTitle(label: CharSequence?, arguments: Bundle?): String {
+
+        if (label == null) return ""
+        val title = StringBuffer()
+        val fillInPattern = Pattern.compile("\\{(.+?)\\}")
+        val matcher = fillInPattern.matcher(label)
+        while (matcher.find()) {
+            val argName = matcher.group(1)
+            if (arguments != null && arguments.containsKey(argName)) {
+                matcher.appendReplacement(title, "")
+                title.append(arguments[argName].toString())
+            } else {
+                throw IllegalArgumentException(
+                    "Could not find $argName in $arguments to fill label $label"
+                )
+            }
+        }
+        matcher.appendTail(title)
+        return title.toString()
+    }
 
     private fun isSignedIn(): Boolean {
         val bundle = intent.extras ?: throw IllegalStateException("No required arguments")
