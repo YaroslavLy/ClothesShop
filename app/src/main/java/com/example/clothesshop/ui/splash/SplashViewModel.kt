@@ -34,9 +34,9 @@ class SplashViewModel(
             if(currentUser != null) {
                 if(currentUser.isAnonymous) {
                     _launchMainScreenEvent.value = true
-                }else if(currentUser.isEmailVerified){
-                    _launchMainScreenEvent.value = true
-                }
+                }else _launchMainScreenEvent.value = currentUser.isEmailVerified
+            }else {
+                _launchMainScreenEvent.value = false
             }
             //_launchMainScreenEvent.value=false
         }
