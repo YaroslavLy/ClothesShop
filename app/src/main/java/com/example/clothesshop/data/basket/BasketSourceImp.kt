@@ -1,29 +1,27 @@
-package com.example.clothesshop.data
+package com.example.clothesshop.data.basket
 
 import android.util.Log
+import com.example.clothesshop.data.Result
+import com.example.clothesshop.data.UserDataSource
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.lang.Exception
+import javax.inject.Inject
 
 
-//todo replace get user uid
-class BasketRepository(val path: String="") {
-    private lateinit var auth: FirebaseAuth
+class BasketSourceImp @Inject constructor(private val userDataSource : UserDataSource) :BasketSource{
 
-    fun getProducts() : Flow<Result<ProductBasket>> = callbackFlow  {
-        auth = Firebase.auth
-        val user= auth.currentUser
-        val userId = user?.uid
+     override fun getProducts(): Flow<Result<ProductBasket>> = callbackFlow {
+
+        val userId = userDataSource.getUid()
+        if (userId == null) trySend(Result.Error(Exception("User Data Exception"))).isFailure
         val fbDB = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -44,6 +42,7 @@ class BasketRepository(val path: String="") {
                     }
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 trySend(Result.Error(databaseError.toException())).isFailure
                 Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
@@ -56,10 +55,9 @@ class BasketRepository(val path: String="") {
         }
     }
 
-    fun getCountProductsInBasket():Flow<Int> = callbackFlow {
-        auth = Firebase.auth
-        val user= auth.currentUser
-        val userId = user?.uid
+    override fun getCountProductsInBasket(): Flow<Int> = callbackFlow {
+        val userId = userDataSource.getUid()
+        if (userId == null) trySend(0).isFailure
         val fbDB = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -67,9 +65,9 @@ class BasketRepository(val path: String="") {
 
                 trySend(count.toInt()).isSuccess
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 //trySend(Result.Error(databaseError.toException())).isFailure
-                //Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
             }
 
         }
@@ -79,13 +77,11 @@ class BasketRepository(val path: String="") {
         }
     }
 
-    fun removeProductInBasket(productBasket: ProductBasket){
-        auth = Firebase.auth
-        val user= auth.currentUser
-        val userId = user?.uid
-        val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/$userId")
-        productBasket.id?.let { firebaseDatabase.child(it).removeValue() }
+    override fun removeProductInBasket(productBasket: ProductBasket) {
+        val userId = userDataSource.getUid()
+        if (userId != null) {
+            val firebaseDatabase = FirebaseDatabase.getInstance().getReference("Basket/$userId")
+            productBasket.id?.let { firebaseDatabase.child(it).removeValue() }
+        }
     }
-
-
 }

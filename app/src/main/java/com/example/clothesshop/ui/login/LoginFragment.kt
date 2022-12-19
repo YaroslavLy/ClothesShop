@@ -1,6 +1,5 @@
 package com.example.clothesshop.ui.login
 
-import android.opengl.Visibility
 import androidx.lifecycle.Observer
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -13,40 +12,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.clothesshop.databinding.FragmentLoginBinding
 
 import com.example.clothesshop.R
-import com.example.clothesshop.data.LoginDataSource
-import com.example.clothesshop.data.LoginRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    override fun onResume() {
-        Log.i("tag99","Login Fragment LY")
-        super.onResume()
-    }
+    private val loginViewModel by viewModels<LoginViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,11 +55,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-//            .get(LoginViewModel::class.java)
-
-        loginViewModel =
-            LoginViewModel(loginRepository = LoginRepository(dataSource = LoginDataSource()))
 
         val usernameEditText = binding.username
         val passwordEditText = binding.password

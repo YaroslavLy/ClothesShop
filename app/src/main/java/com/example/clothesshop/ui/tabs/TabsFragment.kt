@@ -7,23 +7,28 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.clothesshop.R
-import com.example.clothesshop.data.BasketRepository
+import com.example.clothesshop.data.basket.BasketRepository
+import com.example.clothesshop.data.basket.BasketSourceImp
 import com.example.clothesshop.databinding.FragmentTabsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
     private lateinit var binding: FragmentTabsBinding
     lateinit  var bottomNavigationView: BottomNavigationView
 
 
+    private val tabsViewModel by viewModels<TabsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,16 +38,14 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
     }
 
     //todo if selected "Katalog" in bottom navigation view set in sharedprefs type to all
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTabsBinding.bind(view)
         val navHost = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
         val navController = navHost.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
-        val viewModel = TabsViewModel(BasketRepository(""))
 
-        viewModel.tabsFormState.observe(viewLifecycleOwner, Observer { countProductsInBasket ->
+        tabsViewModel.tabsFormState.observe(viewLifecycleOwner, Observer { countProductsInBasket ->
             if (countProductsInBasket == null) {
                 return@Observer
             }

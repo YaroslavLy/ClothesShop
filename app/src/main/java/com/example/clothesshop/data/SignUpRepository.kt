@@ -23,10 +23,7 @@ class SignUpRepository {
         auth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAGGG", "createUserWithEmail:success")
                     //send email verification
-
                     if(auth.currentUser != null) {
                         auth.currentUser!!.sendEmailVerification()
                             .addOnSuccessListener {
@@ -40,42 +37,10 @@ class SignUpRepository {
                     }
                     Firebase.auth.signOut()
                 } else {
-                    Log.w("TAGGG", "createUserWithEmail:failure", task.exception)
                     trySend(false).isFailure
                 }
             }
 
-
-//        else
-//        {
-//            delay(5000L)
-//            if(auth.currentUser != null) {
-//                auth.currentUser!!.sendEmailVerification()
-//                    .addOnSuccessListener {
-//                        Log.d("TAGGG", "Instructions Sent")
-//                    }
-//                    .addOnFailureListener { e ->
-//                        //Toast.makeText(context, "Failed to send due to " + e.message, Toast.LENGTH_SHORT).show()
-//                    }
-//            }
-//        }
-
-
-        //auth.signInWithEmailAndPassword(username,password)
-//        delay(1000L)
-//        for (i in (1..160)) {
-//            //var user = auth.currentUser
-//            delay(1000L)
-//            if (auth.currentUser != null) {
-//                if (auth.currentUser!!.isEmailVerified()) {
-//                    Log.i("212121", "djdjdjdj")
-//                    return true
-//                } else {
-//                    Log.i("212121", "33333333333")
-//                    Log.i("", auth.currentUser!!.email.toString())
-//                }
-//            }
-//        }
 
          awaitClose {
              close()

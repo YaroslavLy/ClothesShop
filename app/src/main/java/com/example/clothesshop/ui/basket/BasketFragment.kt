@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -17,10 +18,10 @@ import com.example.clothesshop.databinding.FragmentBasketBinding
 import com.example.clothesshop.model.ProductBasket
 import com.example.clothesshop.ui.tabs.TabsFragmentDirections
 import com.example.clothesshop.utils.parsers.PriceParser
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BasketFragment : Fragment() {
-    private lateinit var basketViewModel: BasketViewModel
     private var data = ArrayList<ProductBasket>()
 
     private lateinit var adapter: BasketRecyclerViewAdapter
@@ -30,6 +31,7 @@ class BasketFragment : Fragment() {
 
     private var countProductsInBasketmy =0
 
+    private val basketViewModel by viewModels<BasketViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,12 +45,6 @@ class BasketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        basketViewModel =
-            ViewModelProvider(
-                this,
-                BasketViewModelFactory()
-            )[BasketViewModel::class.java]
 
         binding.listProductBasket.layoutManager =
             LinearLayoutManager(context)

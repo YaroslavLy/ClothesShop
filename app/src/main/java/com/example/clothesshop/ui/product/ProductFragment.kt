@@ -172,6 +172,9 @@ class ProductFragment : Fragment() {
     private fun updateUiWithProduct2(product: ProductBasket, view: View) {
         if (!basketData.contains(product)) {
             basketData.add(product)
+            product.code?.let {
+                Log.i("BasketTag", it)
+            }
         }
         if (view is RecyclerView) {
             with(view) {
@@ -182,6 +185,7 @@ class ProductFragment : Fragment() {
 
 
     private fun updateUiWithProduct(product: Product, view: View) {
+
         val productBasketm = ProductBasket(code = product.code)
         val productCopy: Product
         if (basketData.contains(productBasketm)) {
@@ -207,6 +211,7 @@ class ProductFragment : Fragment() {
         }
         if(!data.contains(productCopy)) {
             data.add(productCopy)
+
         }
 
         if (view is RecyclerView) {
@@ -240,8 +245,7 @@ interface DialogActions{
 class PurchaseConfirmationDialogFragment(private val dialogActions:DialogActions) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
-            .setMessage("Zaloguj się")//getString(R.string.order_confirmation)
-//                getString(R.string.ok)
+            .setMessage("Zaloguj się")
             .setPositiveButton("Ok") { _,_ ->
                 dialogActions.onClickOK()
             }.setNegativeButton("Nie"){_,_->}

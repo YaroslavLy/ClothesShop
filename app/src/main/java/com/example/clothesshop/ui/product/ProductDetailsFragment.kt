@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.example.clothesshop.GlideApp
 import com.example.clothesshop.R
-import com.example.clothesshop.data.BasketRepository
 import com.example.clothesshop.data.ProductRepository
 import com.example.clothesshop.databinding.FragmentProductDetailsBinding
 import com.example.clothesshop.model.Product
@@ -26,7 +25,6 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         _binding = FragmentProductDetailsBinding.inflate(inflater,container,false);
         val view = binding.root;
@@ -36,14 +34,15 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
     lateinit var type: String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //todo
         val args: ProductDetailsFragmentArgs by navArgs()
         type =  args.id
 
         // TODO replace
-        var viewModel = ProductViewModel(productRepository = ProductRepository(""), basketRepository = BasketRepository(""))
+        var viewModel = ProductViewModel(productRepository = ProductRepository(""))
+
+
         viewModel.getProduct()
-        viewModel.productFormStateD.observe(viewLifecycleOwner, Observer {
+        viewModel.productFormState.observe(viewLifecycleOwner, Observer {
                 typeFormState ->
             if(typeFormState==null){
                 return@Observer

@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clothesshop.data.BasketRepository
-import com.example.clothesshop.data.Resource
+import com.example.clothesshop.data.basket.BasketRepository
 import com.example.clothesshop.data.Result
 import com.example.clothesshop.model.ProductBasket
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class BasketViewModel(val basketRepository: BasketRepository): ViewModel() {
-
+@HiltViewModel
+class BasketViewModel @Inject constructor(private val basketRepository: BasketRepository) :
+    ViewModel() {
 
     // todo #2 create base View Model
     private val _tabsForm = MutableLiveData<Int>()
@@ -29,15 +30,17 @@ class BasketViewModel(val basketRepository: BasketRepository): ViewModel() {
     private val _basketProductForm = MutableLiveData<ProductBasket>()
     val basketProductFormState: LiveData<ProductBasket> = _basketProductForm
 
-    fun getProductsFromBasket(){
+
+    //
+    fun getProductsFromBasket() {
         viewModelScope.launch {
-            basketRepository.getProducts().collect{ resource ->
+            basketRepository.getProducts().collect { resource ->
                 when (resource) {
                     is Result.Success -> {
-                        _basketProductForm.value = resource.data!! as ProductBasket
+                        _basketProductForm.value = resource.data as ProductBasket
                     }
                     is Result.Error -> {
-                       //Log.w(TAG, resource.error!!)
+                        //Log.w(TAG, resource.error!!)
                     }
                 }
             }
@@ -45,7 +48,7 @@ class BasketViewModel(val basketRepository: BasketRepository): ViewModel() {
 
     }
 
-    fun removeProductFromBasket(productBasket: ProductBasket){
+    fun removeProductFromBasket(productBasket: ProductBasket) {
         basketRepository.removeProductInBasket(productBasket)
     }
 
