@@ -5,7 +5,7 @@ import com.example.clothesshop.model.LoggedInUser
 import javax.inject.Inject
 
 
-class LoginRepository @Inject constructor(val dataSource: LoginDataSource) {
+class LoginRepository @Inject constructor(private val dataSource: LoginDataSource) {
 
     var user: LoggedInUser? = null
         private set

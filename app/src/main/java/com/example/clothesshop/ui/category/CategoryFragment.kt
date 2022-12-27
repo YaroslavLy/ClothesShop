@@ -8,12 +8,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.clothesshop.utils.Constants.KEY_FOLDER
 import com.example.clothesshop.utils.Constants.SHARED_PREFS_CATEGORY
 import com.example.clothesshop.GlideApp
+import com.example.clothesshop.MainViewModel
 import com.example.clothesshop.R
 import com.example.clothesshop.databinding.FragmentCategoryBinding
 import com.example.clothesshop.model.Category
@@ -22,7 +24,7 @@ import com.example.clothesshop.model.Category
 class CategoryFragment : Fragment() {
 
     private var count = 0
-
+    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var categoryViewModel: CategoryViewModel
     private var listCategory = mutableListOf<Category>()
     private var _binding: FragmentCategoryBinding? = null
@@ -98,9 +100,10 @@ class CategoryFragment : Fragment() {
         }
         categoryRelativeLayout.setOnClickListener {
             //todo pass argument to graph catalog_graph to the TypeFragment (replace sharedPreferences)
-            val sharedPreferences =
-                context?.getSharedPreferences(SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
-            sharedPreferences?.edit()?.putString(KEY_FOLDER, category.name_folder)?.apply()
+//            val sharedPreferences =
+//                context?.getSharedPreferences(SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
+//            sharedPreferences?.edit()?.putString(KEY_FOLDER, category.name_folder)?.apply()
+            category.name_folder?.let { it1 -> mainViewModel.setCategory(it1) }
             findNavController().navigate(R.id.action_categoryFragment2_to_catalog_graph)
         }
     }

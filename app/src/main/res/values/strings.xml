@@ -15,4 +15,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="please_wait">Proszę czekać</string>
     <string name="action_sign_up_anonymous">Zaloguj się Anonimowo</string>
+    <string name="title_filter_type">Wybierz dla kogo</string>
+    <string name="cancel">Anulować</string>
+    <string name="decline">Nie</string>
+    <string name="accept">Ok</string>
 </resources>

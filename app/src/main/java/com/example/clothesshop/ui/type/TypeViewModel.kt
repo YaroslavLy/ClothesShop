@@ -16,14 +16,29 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
+
 class TypeViewModel(val typeRepository: TypeRepository): ViewModel() {
 
     private val _typeForm = MutableLiveData<Type>()
     val typeFormState: LiveData<Type> = _typeForm
 
-    fun getTypes(){
+    //    init {
+//        typeRepository.getTypes()
+//            .onEach { resource ->
+//                when (resource) {
+//                    is Resource.Success -> {
+//                        _typeForm.value = resource.data!!
+//                    }
+//                    is Resource.Error -> {
+//                        //Log.w(TAG, resource.error!!)
+//                    }
+//                }
+//            }
+//            .launchIn(viewModelScope)
+//    }
+    fun getTypes(path: String){
         viewModelScope.launch {
-            typeRepository.getTypes().collect(){resource ->
+            typeRepository.getTypes(path).collect(){resource ->
                 when (resource) {
                     is Resource.Success -> {
                         _typeForm.value = resource.data!!
