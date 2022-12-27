@@ -134,7 +134,7 @@ class BasketFragment : Fragment() {
         }
         binding.order.isEnabled = countProductsInBasketmy != 0
         // todo replace change background (bind to countProductsInBasketmy )
-        binding.listProductBasket.background = Color.WHITE.toDrawable()
+        //binding.listProductBasket.background = Color.WHITE.toDrawable()
     }
 
 }
