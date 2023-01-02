@@ -13,7 +13,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.clothesshop.data.UserDataSource
 import com.example.clothesshop.databinding.ActivityMainBinding
+import com.example.clothesshop.model.Product
 import com.example.clothesshop.ui.tabs.TabsFragment
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -45,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //setSupportActionBar(binding.toolbar)
 
-
-
         val navController = getRootNavController()
         prepareRootNavController(isSignedIn(), navController)
         onNavControllerActivated(navController)
@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 //        viewModel.username.observe(this) {
 //            binding.usernameTextView.text = it
 //        }
+
+
     }
 
     override fun onDestroy() {

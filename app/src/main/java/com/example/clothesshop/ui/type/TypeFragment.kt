@@ -70,7 +70,8 @@ class TypeFragment : Fragment() {
         binding.list.layoutManager = GridLayoutManager(context, 3)
         typeRecyclerViewAdapter = TypeRecyclerViewAdapter(object : TypeItemActionListener {
             override fun onTypeClick(type: Type) {
-                findNavController().navigate(R.id.action_typeFragment2_to_productFragment3)
+                val action = TypeFragmentDirections.actionTypeFragment2ToProductFragment3("/"+"$category"+"/"+"${type.nameFolder}")
+                findNavController().navigate(action)
             }
         })
         binding.list.adapter = typeRecyclerViewAdapter

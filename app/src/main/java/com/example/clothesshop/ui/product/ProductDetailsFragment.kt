@@ -31,19 +31,22 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
         return view;
     }
 
-    lateinit var type: String
+    lateinit var id: String
+    lateinit var path: String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args: ProductDetailsFragmentArgs by navArgs()
-        type =  args.id
+        id =  args.id
+        path = args.path
+
 
         // TODO replace
         var viewModel = ProductViewModel(productRepository = ProductRepository(""))
 
 
-        viewModel.getProduct()
-        viewModel.productFormState.observe(viewLifecycleOwner, Observer {
-                typeFormState ->
+
+        viewModel.getProduct(id=id,path=path)
+        viewModel.productDetailsFormState.observe(viewLifecycleOwner, Observer { typeFormState ->
             if(typeFormState==null){
                 return@Observer
             }
@@ -60,7 +63,8 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
     private fun updateUiWithProduct(product: Product, view: View) {
     Log.i("Ok22",product.code.toString())
-        if(product.code.equals(type))
+        Log.i("TAG0101",product.toString())
+        if(product.code.equals(id))
         {
             GlideApp.with(binding.imageview.context)
                 .load(product.image)

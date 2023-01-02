@@ -18,8 +18,8 @@ import java.lang.Exception
 
 class ProductRepository(val path: String="") {
 
-    fun getProducts() : Flow<Resource<Product>> = callbackFlow  {
-        val fbDB = FirebaseDatabase.getInstance().getReference(Constants.COLLECTION_PRODUCTS)
+    fun getProducts(path: String) : Flow<Resource<Product>> = callbackFlow  {
+        val fbDB = FirebaseDatabase.getInstance().getReference(Constants.COLLECTION_PRODUCTS+"$path")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataSn in dataSnapshot.children) {
@@ -51,6 +51,40 @@ class ProductRepository(val path: String="") {
         }
     }
 
+
+    fun getProduct(id: String,path: String): Flow<Resource<Product>> = callbackFlow{
+        val fbDB = FirebaseDatabase.getInstance().getReference(Constants.COLLECTION_PRODUCTS+"$path")
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataSn in dataSnapshot.children) {
+                    var item = dataSn.getValue(Product::class.java)
+                    if (item != null) {
+
+                        val product = Product(
+                            image = item.image,
+                            name = item.name,
+                            price = item.price,
+                            code = item.code,
+                            in_bascked = item.in_bascked,
+                            type = item.type,
+                            description = item.description
+                        )
+                        if(product.code.equals(id)){
+                            trySend(Resource.Success<Product>(product)).isSuccess
+                        }
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                trySend(Resource.Error(databaseError.toException().toString())).isFailure
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        fbDB.addValueEventListener(postListener)
+        awaitClose {
+            close()
+        }
+    }
 
     //todo add UserDataSource in constructor
     private lateinit var auth: FirebaseAuth

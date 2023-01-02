@@ -19,4 +19,5 @@
     <string name="cancel">Anulować</string>
     <string name="decline">Nie</string>
     <string name="accept">Ok</string>
+    <string name="find_product">Szukaj produkt</string>
 </resources>

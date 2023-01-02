@@ -21,6 +21,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.clothesshop.databinding.FragmentCategoryBinding
+import com.example.clothesshop.databinding.FragmentProductBinding
+import com.example.clothesshop.databinding.FragmentProductListBinding
 import com.example.clothesshop.model.Product
 import com.example.clothesshop.model.ProductBasket
 import com.example.clothesshop.ui.tabs.TabsFragmentDirections
@@ -35,6 +39,10 @@ class ProductFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
 
+    private var _binding: FragmentProductListBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapterCopy: ProductRecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,96 +56,112 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_product_list, container, false)
-        return view
+        _binding = FragmentProductListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val args: ProductFragmentArgs by navArgs()
+        val type =  args.path
         productViewModel =
             ViewModelProvider(
                 this,
                 ProductViewModelFactory()
             )[ProductViewModel::class.java]
 
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+
+        val recyclerView = binding.list
+        with(recyclerView) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
+            }
+            adapterCopy = ProductRecyclerViewAdapter(object : ProductItemActionListener {
+                override fun onProductClickDetails(product: Product) {
+                    val action = product.code?.let { it1 ->
+                        ProductFragmentDirections.actionProductFragment3ToProductDetailsFragment4(
+                            it1,type
+                        )
+                    }
+                    if (action != null) {
+                        findNavController().navigate(action)
+                    }
                 }
-                val adapterCopy = ProductRecyclerViewAdapter(object : ProductItemActionListener {
-                    override fun onProductClickDetails(product: Product) {
-                        val action = product.code?.let { it1 ->
-                            ProductFragmentDirections.actionProductFragment3ToProductDetailsFragment4(
-                                it1
-                            )
-                        }
-                        if (action != null) {
-                            findNavController().navigate(action)
-                        }
-                    }
 
-                    override fun onProductClickBasket(product: Product,imageView: ImageView) { //TODO move to Repo
-                        auth = Firebase.auth
-                        val user = auth.currentUser
-                        if(user!!.isAnonymous){
-                            val text = "Nie Możesz dodać produkt do koszyka, ponieważ używasz konta anonimowego."
-                            val duration = Toast.LENGTH_SHORT
+                override fun onProductClickBasket(product: Product,imageView: ImageView) { //TODO move to Repo
+                    auth = Firebase.auth
+                    val user = auth.currentUser
+                    if(user!!.isAnonymous){
+                        val text = "Nie Możesz dodać produkt do koszyka, ponieważ używasz konta anonimowego."
+                        val duration = Toast.LENGTH_SHORT
 
-                            val toast = Toast.makeText(context, text, duration)
-                            toast.show()
-                            PurchaseConfirmationDialogFragment(object : DialogActions{
-                                override fun onClickOK() {
-                                                  Firebase.auth.signOut()
-                                    val navHostFragment = parentFragment as NavHostFragment?
-                                    val parent = navHostFragment!!.parentFragment
-                                    if (parent != null) {
-                                        parent.view?.let { it1 -> Navigation.findNavController(it1).navigate(
-                                            TabsFragmentDirections.actionTabsFragmentToLoginFragment()) }
-                                    }
-
+                        val toast = Toast.makeText(context, text, duration)
+                        toast.show()
+                        PurchaseConfirmationDialogFragment(object : DialogActions{
+                            override fun onClickOK() {
+                                              Firebase.auth.signOut()
+                                val navHostFragment = parentFragment as NavHostFragment?
+                                val parent = navHostFragment!!.parentFragment
+                                if (parent != null) {
+                                    parent.view?.let { it1 -> Navigation.findNavController(it1).navigate(
+                                        TabsFragmentDirections.actionTabsFragmentToLoginFragment()) }
                                 }
 
-                                override fun onClickNO() {
-                                    TODO("Not yet implemented")
-                                }
-
-                            })
-                                .show(childFragmentManager, PurchaseConfirmationDialogFragment.TAG)
-                            return
-                        }
-                        val userId = user?.uid
-                        val firebaseDatabase =
-                            FirebaseDatabase.getInstance().getReference("Basket/$userId")
-
-                        //if (!ifElementInBasket(product)) {
-                        if (!basketData.contains(product.toProductBasket())) {
-                            val t1 = product.copy()
-                            firebaseDatabase.push().setValue(t1)
-                            imageView.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
-                        } else {
-                            val t1 = product.copy()
-                            // the best code
-                            t1.code?.let { it1 ->
-                                getItemByCode(it1).id?.let { it1 ->
-                                    firebaseDatabase.child(it1).removeValue()
-                                }
                             }
-                            basketData.remove(getItemByCode(t1.code!!))
-                            imageView.setImageResource(R.drawable.ic_baseline_add_shopping_cart_24)
-                        }
+
+                            override fun onClickNO() {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+                            .show(childFragmentManager, PurchaseConfirmationDialogFragment.TAG)
+                        return
                     }
+                    val userId = user?.uid
+                    val firebaseDatabase =
+                        FirebaseDatabase.getInstance().getReference("Basket/$userId")
 
-                })
-                adapterCopy.mList = data
-                adapter = adapterCopy
+                    //if (!ifElementInBasket(product)) {
+                    if (!basketData.contains(product.toProductBasket())) {
+                        val t1 = product.copy()
+                        firebaseDatabase.push().setValue(t1)
+                        imageView.setImageResource(R.drawable.ic_baseline_shopping_cart_24_2)
+                    } else {
+                        val t1 = product.copy()
+                        // the best code
+                        t1.code?.let { it1 ->
+                            getItemByCode(it1).id?.let { it1 ->
+                                firebaseDatabase.child(it1).removeValue()
+                            }
+                        }
+                        basketData.remove(getItemByCode(t1.code!!))
+                        imageView.setImageResource(R.drawable.ic_baseline_add_shopping_cart_24)
+                    }
+                }
 
+            })
+            adapterCopy.mList = data
+            adapter = adapterCopy
+
+        }
+
+        binding.findButton.setOnClickListener {
+            val text = binding.findProductEditText.text
+            updateUiWithFilter(text.toString())
+        }
+
+        binding.findClearButton.setOnClickListener {
+            adapterCopy.mList=data
+            if (binding.list is RecyclerView) {
+                with(binding.list) {
+                    adapter?.notifyDataSetChanged()
+                }
             }
         }
 
-        productViewModel.getProduct()
+
+        productViewModel.getProduct(type)
         productViewModel.productFormState.observe(viewLifecycleOwner, Observer { productFormState ->
             if (productFormState == null) {
                 return@Observer
@@ -161,6 +185,20 @@ class ProductFragment : Fragment() {
             })
     }
 
+    private fun updateUiWithFilter(text: String) {
+        if (text.isNullOrEmpty()) return
+        val copy = data.filter { it.name!!.contains(text, ignoreCase = true) } as ArrayList<Product>
+        Log.i("TAG0201",data.toString())
+        adapterCopy.mList=copy
+
+        if (binding.list is RecyclerView) {
+            with(binding.list) {
+                adapter?.notifyDataSetChanged()
+            }
+        }
+
+    }
+
     private fun updateAdapter(view: View){
         if (view is RecyclerView) {
             with(view) {
@@ -176,6 +214,7 @@ class ProductFragment : Fragment() {
                 Log.i("BasketTag", it)
             }
         }
+        // todo binding.list
         if (view is RecyclerView) {
             with(view) {
                 adapter?.notifyDataSetChanged()
@@ -214,8 +253,8 @@ class ProductFragment : Fragment() {
 
         }
 
-        if (view is RecyclerView) {
-            with(view) {
+        if (binding.list is RecyclerView) {
+            with(binding.list) {
                 adapter?.notifyDataSetChanged()
             }
         }

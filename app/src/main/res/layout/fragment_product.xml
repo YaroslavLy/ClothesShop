@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="340dp"
     android:layout_margin="1dp"
     app:cardCornerRadius="0dp"
     app:cardElevation="6dp"
@@ -35,6 +36,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:text="text Name and main text"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -42,6 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -65,62 +68,8 @@
                 android:layout_weight="3"
                 app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24" />
 
-            <!--            <androidx.cardview.widget.CardView-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                app:cardCornerRadius="8dp"-->
-            <!--                android:layout_margin="5dp"-->
-            <!--                android:elevation="10dp">-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/roundedImageView"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:src="@drawable/ic_baseline_shopping_cart_24"-->
-            <!--                    android:background="@color/white"-->
-            <!--                    android:scaleType="centerCrop"-->
-            <!--                    />-->
-            <!--            </androidx.cardview.widget.CardView>-->
-
-            <!--            <androidx.appcompat.widget.AppCompatImageView-->
-            <!--                android:id="@+id/timerButton"-->
-            <!--                style="@style/Widget.AppCompat.ActionButton"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginEnd="5dp"-->
-            <!--                android:background="@color/ic_launcher_background"-->
-            <!--                android:onClick="@{clickListener}"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:srcCompat="@drawable/ic_baseline_shopping_cart_24" />-->
-
-
         </LinearLayout>
 
-        <!--        <com.google.android.material.button.MaterialButton-->
-        <!--            android:id="@+id/registerButton"-->
-        <!--            style="@style/Widget.MaterialComponents.Button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:elevation="0dp"-->
-        <!--            android:enabled="@{!loading}"-->
-        <!--            android:onClick="@{clickListener}"-->
-        <!--            android:paddingStart="16dp"-->
-        <!--            android:paddingTop="24dp"-->
-        <!--            android:paddingEnd="16dp"-->
-        <!--            android:paddingBottom="24dp"-->
-        <!--            android:textSize="18sp"-->
-        <!--            android:text="TEXT"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            app:cornerRadius="10dp"-->
-        <!--            app:icon="@drawable/ic_baseline_shopping_cart_24"-->
-        <!--            app:iconGravity="start"-->
-        <!--            app:iconTint="@color/white"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/cashButton" />-->
 
     </LinearLayout>
 
