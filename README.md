@@ -10,6 +10,7 @@
 * [30.11.2022](#30112022)
 * [07.12.2022](#07122022)
 * [20.12.2022](#20122022)
+* [04.01.2023](#04012023)
 * [Dokumentacja](#dokumentacja)
 
 ## 12.10.2022
@@ -103,6 +104,29 @@ podział zadań
 
 
 
+## [⇈Do Nawigacji](#nawigacja)
+
+## 04.01.2023
+
+<img src="https://user-images.githubusercontent.com/60778267/210414690-3c52c254-f528-45c6-86be-1d52f5b6e750.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414704-623fc082-f6a4-4246-957d-512c5b6a4744.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414713-7bba5c41-7322-4151-91a1-10129429dbf2.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414723-cfcd3bf9-a9d9-441d-abdb-8a695a89cf35.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210415675-a363f39d-0d77-4da8-a0d8-538cf1d44764.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414727-a84c6c1d-3682-4180-9ae7-259dc569c9c9.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414733-c5f785a2-4684-41cf-9191-5d7952e1043a.png" alt="drawing" width="400"/>
+
+<img src="https://user-images.githubusercontent.com/60778267/210414739-bd276062-b934-45a3-a308-c42af292efa2.png" alt="drawing" width="400"/>
+
+
+
+![image](https://user-images.githubusercontent.com/60778267/210414486-82e0a0a6-7b9b-4355-a3fd-c21f3d4f0f85.png)
 
 ## [⇈Do Nawigacji](#nawigacja)
 
