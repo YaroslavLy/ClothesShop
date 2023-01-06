@@ -7,25 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.clothesshop.data.BasketRepository
 import com.example.clothesshop.data.OrderRepository
+import com.example.clothesshop.data.basket.BasketRepository
+import com.example.clothesshop.data.basket.BasketSourceImp
 import com.example.clothesshop.databinding.FragmentOrderSummaryBinding
 import com.example.clothesshop.model.Order
 import com.example.clothesshop.model.ProductBasket
+import com.example.clothesshop.ui.basket.BasketViewModel
 import com.example.clothesshop.utils.Constants
 import com.example.clothesshop.utils.parsers.PriceParser
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
 
+@AndroidEntryPoint
 class OrderSummaryFragment : Fragment() {
 
 
+    // todo move to constants
     private val CARD_NUMBER_TOTAL_SYMBOLS = 19 // size of pattern 0000-0000-0000-0000
 
     private val CARD_NUMBER_TOTAL_DIGITS = 16 // max numbers of digits in pattern: 0000 x 4
@@ -60,7 +66,7 @@ class OrderSummaryFragment : Fragment() {
     private var data = ArrayList<ProductBasket>()
     private var textNames = ""
     private var textPrices = ""
-
+    private val basketViewModel by viewModels<BasketViewModel> ()
 
     override fun onResume() {
         super.onResume()
@@ -91,10 +97,10 @@ class OrderSummaryFragment : Fragment() {
         cardDateChange()
         cardCVCChange()
 
-        orderViewModel = OrderViewModel(BasketRepository(""), OrderRepository())
+        orderViewModel = OrderViewModel(OrderRepository())
 
-        orderViewModel.getProductsFromBasket()
-        orderViewModel.basketProductFormState.observe(
+        basketViewModel.getProductsFromBasket()
+        basketViewModel.basketProductFormState.observe(
             viewLifecycleOwner,
             Observer { productBasket ->
                 if (productBasket == null) {
@@ -404,23 +410,5 @@ class OrderSummaryFragment : Fragment() {
         return digits
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment OrderSummaryFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            OrderSummaryFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
+
 }

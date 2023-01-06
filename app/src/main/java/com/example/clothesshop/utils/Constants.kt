@@ -11,5 +11,11 @@ object Constants {
     const val KEY_PAY_BLIK = 2
     const val KEY_PAY_CASH = 3
 
+    const val WOMEN_PL="Kobieta"
+    const val MEN_PL="Mężczyzna"
+    const val BOY_PL="Chłopiec"
+    const val GIRL_PL="Dziewczynka"
+    const val BABY_PL="Niemowlak"
+    const val ALL_PL="Wszyscy"
 
 }

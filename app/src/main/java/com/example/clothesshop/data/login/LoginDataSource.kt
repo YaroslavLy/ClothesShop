@@ -1,17 +1,17 @@
-package com.example.clothesshop.data
+package com.example.clothesshop.data.login
 
 
+import com.example.clothesshop.data.Result
+import com.example.clothesshop.data.UserDataSource
 import com.example.clothesshop.model.LoggedInUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import java.io.IOException
+import javax.inject.Inject
 
-/**
- * Class that handles authentication w/ login credentials and retrieves user information.
- */
-class LoginDataSource {
+class LoginDataSource @Inject constructor(private val userDataSource: UserDataSource) {
     private lateinit var auth: FirebaseAuth
     suspend  fun  login(username: String, password: String): Result<LoggedInUser> {
         try {
@@ -21,6 +21,7 @@ class LoginDataSource {
             val user= auth.currentUser
             if(user != null) {
                 if(user.isEmailVerified) {
+                    userDataSource.saveUid(user.uid)
                     return Result.Success(
                         LoggedInUser(
                             user.uid,

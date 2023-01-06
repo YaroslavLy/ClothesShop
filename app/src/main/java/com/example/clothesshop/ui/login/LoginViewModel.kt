@@ -4,17 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.example.clothesshop.data.LoginRepository
+import androidx.lifecycle.viewModelScope
+import com.example.clothesshop.data.login.LoginRepository
 import com.example.clothesshop.data.Result
 
 import com.example.clothesshop.R
 import com.example.clothesshop.model.LoggedInUser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -38,6 +42,20 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             } else {
                 _loginResult.postValue(LoginResult(error = R.string.login_failed))
             }
+        }
+    }
+
+    //todo move code inside to repo
+    private lateinit var auth: FirebaseAuth
+    fun loginAnonymous(){
+        viewModelScope.launch {
+
+            auth = Firebase.auth
+            auth.signInAnonymously()
+            delay(1000L)
+            _loginResult.postValue(
+                LoginResult(success = LoggedInUserView(displayName = "Anonym"))
+            )
         }
     }
 

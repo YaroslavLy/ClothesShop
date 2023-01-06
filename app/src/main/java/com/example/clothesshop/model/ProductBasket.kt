@@ -11,9 +11,10 @@ data class ProductBasket(
     val description: String? = ""
 ) {
     override fun equals(other: Any?): Boolean {
-        return if (other is ProductBasket)
-            this.code == other.code
-        else
-            false
+        return when(other) {
+            is ProductBasket -> this.code == other.code
+            is Product -> this.code == other.code
+            else -> false
+        }
     }
 }

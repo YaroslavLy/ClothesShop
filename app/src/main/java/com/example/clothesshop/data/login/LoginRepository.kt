@@ -1,15 +1,12 @@
-package com.example.clothesshop.data
+package com.example.clothesshop.data.login
 
+import com.example.clothesshop.data.Result
 import com.example.clothesshop.model.LoggedInUser
+import javax.inject.Inject
 
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
 
-class LoginRepository(val dataSource: LoginDataSource) {
+class LoginRepository @Inject constructor(private val dataSource: LoginDataSource) {
 
-    // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
         private set
 
@@ -17,8 +14,6 @@ class LoginRepository(val dataSource: LoginDataSource) {
         get() = user != null
 
     init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
         user = null
     }
 
@@ -41,6 +36,5 @@ class LoginRepository(val dataSource: LoginDataSource) {
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         this.user = loggedInUser
         // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 }

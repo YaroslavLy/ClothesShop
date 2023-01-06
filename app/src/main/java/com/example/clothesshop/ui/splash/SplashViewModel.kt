@@ -31,7 +31,14 @@ class SplashViewModel(
             auth = Firebase.auth
             val currentUser = auth.currentUser
             //currentUser
-            _launchMainScreenEvent.value = currentUser != null && currentUser.isEmailVerified
+            if(currentUser != null) {
+                if(currentUser.isAnonymous) {
+                    _launchMainScreenEvent.value = true
+                }else _launchMainScreenEvent.value = currentUser.isEmailVerified
+            }else {
+                _launchMainScreenEvent.value = false
+            }
+            //_launchMainScreenEvent.value=false
         }
     }
 }

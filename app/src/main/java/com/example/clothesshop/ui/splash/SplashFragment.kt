@@ -4,6 +4,7 @@ package com.example.clothesshop.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.clothesshop.MainActivity
@@ -28,7 +29,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         // just some animations example
         renderAnimations()
 
-        viewModel.launchMainScreenEvent.observe(viewLifecycleOwner) { launchMainScreen(it) }
+        viewModel.launchMainScreenEvent.observe(viewLifecycleOwner) {
+            Log.i("tastas",it.toString())
+            launchMainScreen(it)
+        }
     }
 
     private fun launchMainScreen(isSignedIn: Boolean) {

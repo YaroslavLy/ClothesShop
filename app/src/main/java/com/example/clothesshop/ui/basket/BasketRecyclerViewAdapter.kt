@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -14,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.clothesshop.GlideApp
 import com.example.clothesshop.R
 import com.example.clothesshop.model.ProductBasket
+import com.example.clothesshop.ui.tabs.TabsFragmentDirections
 
 
 interface ProductBasketActionListener {
@@ -80,7 +83,14 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
         }
 
         holder.linearLayout.setOnClickListener {
-            actionListener.onProductDetails(productBasket)
+            //actionListener.onProductDetails(productBasket)
+            val action = productBasket.code?.let { it1 ->
+                BasketFragmentDirections.actionBasketFragment2ToProductDetailsFragment2(it1)
+            }
+            if (action != null) {
+                holder.itemView.findNavController().navigate(action)
+            }
+            //Navigation.findNavController(it1).navigate(TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment())
         }
 
     }

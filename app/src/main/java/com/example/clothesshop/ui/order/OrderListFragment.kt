@@ -10,13 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.clothesshop.R
-import com.example.clothesshop.data.BasketRepository
 import com.example.clothesshop.data.OrderRepository
 import com.example.clothesshop.model.OrderView
 
-/**
- * A fragment representing a list of Items.
- */
 class OrderListFragment : Fragment() {
 
     private lateinit var orderViewModel: OrderViewModel
@@ -38,7 +34,7 @@ class OrderListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_order_item_list, container, false)
 
-        orderViewModel = OrderViewModel(BasketRepository(""), OrderRepository())
+        orderViewModel = OrderViewModel( OrderRepository())
 
 
         orderViewModel.getOrders()
