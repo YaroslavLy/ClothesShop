@@ -45,27 +45,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="35dp"
         android:hint="@string/prompt_email"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_sign_up"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -77,27 +68,18 @@
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/searchLayout1"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="35dp"
         android:hint="@string/prompt_password"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchLayout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_sign_up"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,28 +92,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout3"
-
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="35dp"
         android:hint="@string/prompt_password_repeat"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchLayout1"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_sign_up_repeat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -144,7 +116,7 @@
     <Button
 
         android:id="@+id/signup"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
