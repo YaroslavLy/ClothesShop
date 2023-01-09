@@ -132,6 +132,6 @@ podział zadań
 
 ## Dokumentacja
 
-[Dokumentacja_6.pdf](https://github.com/YaroslavLy/ClothesShop/blob/main/Dokumentacja_6.pdf)
+[dokumentacja_IO_zespol_5.pdf] https://github.com/YaroslavLy/ClothesShop/blob/main/dokumentacja_IO_zespol_5.pdf
 
 ## [⇈Do Nawigacji](#nawigacja)
