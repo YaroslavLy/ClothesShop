@@ -2,6 +2,9 @@
  Projekt zespołowy dyplomowy aplikacja Android
  <hr/>
  
+ ## Apk file 
+ https://drive.google.com/file/d/1udb4zC5-srpRWBkKMvXGX-kGOjyaKgEf/view?usp=sharing
+ 
 ## Nawigacja
 * [12.10.2022](#12102022)
 * [19.10.2022](#19102022)
