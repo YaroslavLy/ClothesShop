@@ -31,7 +31,8 @@ class TypeFragment : Fragment() {
     private var data = ArrayList<Type>()
     private var checkedItem = 5
     private var checkItemName = "all"
-
+    private var category = "All"
+    private var isKom=false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +50,7 @@ class TypeFragment : Fragment() {
 //        val sharedPreferences = context?.getSharedPreferences(Constants.SHARED_PREFS_CATEGORY, Context.MODE_PRIVATE)
 //        val type = sharedPreferences?.getString(KEY_FOLDER,"all") ?:"all"// "all"// args.arg
 //        Log.i("Test0112",type.toString())
-        var category = "all"
+        //category = "All"
 
         typeViewModel =
             ViewModelProvider(
@@ -60,10 +61,20 @@ class TypeFragment : Fragment() {
         mainViewModel.сategoryFormState.observe(viewLifecycleOwner, Observer { typeRes ->
             if (typeRes == null) {
                 return@Observer
+
             }
             category = typeRes
             updateDialogData(category)
             data = mutableListOf<Type>() as ArrayList<Type>
+            //
+
+
+            //binding.list.adapter?.notifyDataSetChanged()
+//            data = mutableListOf<Type>() as ArrayList<Type>
+//            typeRecyclerViewAdapter.typesList = data.toMutableList()
+//            binding.list.adapter?.notifyDataSetChanged()
+            //Log.i("0801",data.toString()+"kom")
+            isKom=true
             typeViewModel.getTypes(category)
 
         })
@@ -76,7 +87,11 @@ class TypeFragment : Fragment() {
         })
         binding.list.adapter = typeRecyclerViewAdapter
 
-        typeViewModel.getTypes(category)
+//        if(category=="All") {
+//            //typeViewModel.getTypes("Women")
+//            //showDialog()
+//            //category="Women"
+//        }
         typeViewModel.typeFormState.observe(viewLifecycleOwner, Observer { typeFormState ->
             if (typeFormState == null) {
                 return@Observer
@@ -89,40 +104,44 @@ class TypeFragment : Fragment() {
         })
 
         binding.toggleButton.setOnClickListener {
-            val array = arrayOf(
-                Constants.WOMEN_PL, Constants.MEN_PL,
-                Constants.BOY_PL, Constants.GIRL_PL,
-                Constants.BABY_PL, Constants.ALL_PL
-            )
-
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(resources.getString(R.string.title_filter_type))
-                //.setTitle("Title")
-                //.setMessage(resources.getString(R.string.supporting_text))
-                .setSingleChoiceItems(array, checkedItem) { _, which ->
-                    // Get the dialog selected item index
-                    checkedItem = which
-                }
-                .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
-                    // Respond to neutral button press
-                }
-                .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
-                    // Respond to negative button press
-                }
-                .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                    // Respond to positive button press
-                    updateUiFilter()
-
-                }
-                .show()
+            showDialog()
         }
+    }
+
+    private fun showDialog() {
+        val array = arrayOf(
+            Constants.WOMEN_PL, Constants.MEN_PL,
+            Constants.BOY_PL, Constants.GIRL_PL,
+            Constants.BABY_PL, Constants.ALL_PL
+        )
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.title_filter_type))
+            //.setTitle("Title")
+            //.setMessage(resources.getString(R.string.supporting_text))
+            .setSingleChoiceItems(array, checkedItem) { _, which ->
+                // Get the dialog selected item index
+                checkedItem = which
+            }
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                // Respond to neutral button press
+            }
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+                // Respond to negative button press
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                // Respond to positive button press
+                updateUiFilter()
+
+            }
+            .show()
     }
 
     private fun updateUiFilter() {
         data = mutableListOf<Type>() as ArrayList<Type>
         typeRecyclerViewAdapter.typesList = data.toMutableList()
         binding.list.adapter?.notifyDataSetChanged()
-        var myCategory="all"
+        var myCategory="Women"
         when(checkedItem){
             0->{myCategory="Women"}
             1->{myCategory="Men"}
@@ -132,7 +151,8 @@ class TypeFragment : Fragment() {
 
         }
         typeViewModel.getTypes(myCategory)
-
+        //
+        category=myCategory
     }
 
     private fun updateDialogData(category: String) {

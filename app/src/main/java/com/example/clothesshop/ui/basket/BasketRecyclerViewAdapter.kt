@@ -88,7 +88,7 @@ class BasketRecyclerViewAdapter(private val actionListener: ProductBasketActionL
                 BasketFragmentDirections.actionBasketFragment2ToProductDetailsFragment2(it1)
             }
             if (action != null) {
-                holder.itemView.findNavController().navigate(action)
+               // holder.itemView.findNavController().navigate(action)
             }
             //Navigation.findNavController(it1).navigate(TabsFragmentDirections.actionTabsFragmentGraphToOrderFragment())
         }

@@ -72,27 +72,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="35dp"
         android:hint="Imie i Nazwisko"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -103,27 +94,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/number_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:hint="Telefon"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_layout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -134,27 +116,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:hint="E-mail"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/number_layout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -165,27 +138,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/street_number_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:hint="Ulica i numer"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_layout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/street_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -196,27 +160,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/post_number_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:hint="Kod pocztowy"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/street_number_layout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/post_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -227,27 +182,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/place_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:hint="Miejscowość"
-        android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/post_number_layout"
         app:layout_constraintWidth_percent="0.6">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/place"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
