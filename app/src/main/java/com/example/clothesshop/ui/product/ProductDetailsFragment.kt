@@ -96,11 +96,7 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
                 binding.details1.text = data[0]
                 binding.price.text = product.price
 
-                binding.details2.text =data[1]//.replaceFirstChar { it.uppercase() }+"."//+
-//                        data[2].replaceFirstChar { it.uppercase() }+". "+
-//                        data[3].replaceFirstChar { it.uppercase() }+". "+
-//                        data[4].replaceFirstChar { it.uppercase() }+". "+
-//                        data[5].replaceFirstChar { it.uppercase() }
+                binding.details2.text =data[1]
                 binding.details3.text = data[2]//.replaceFirstChar { it.uppercase() }+"."
                 binding.details4.text = data[3]//.replaceFirstChar { it.uppercase() }+"."
                 binding.details5.text = data[4]//.replaceFirstChar { it.uppercase() }+"."
