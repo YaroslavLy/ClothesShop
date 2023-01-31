@@ -1,16 +1,13 @@
 package com.example.clothesshop.ui.basket
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +35,7 @@ class BasketFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         _binding = FragmentBasketBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -48,6 +46,8 @@ class BasketFragment : Fragment() {
 
         binding.listProductBasket.layoutManager =
             LinearLayoutManager(context)
+
+        //todo #18 use the transfer of functions to the constructor
         adapter = BasketRecyclerViewAdapter(object : ProductBasketActionListener {
             override fun onProductDelete(productBasket: ProductBasket) {
                 basketViewModel.removeProductFromBasket(productBasket)

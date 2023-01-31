@@ -27,6 +27,7 @@ interface ProductBasketActionListener {
 
 }
 
+//todo #19 use ListAdapters
 class ProductBasketDiffCallback(
     private val oldList: List<ProductBasket>,
     private val newList: List<ProductBasket>

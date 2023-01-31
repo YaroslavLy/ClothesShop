@@ -1,5 +1,7 @@
 package com.example.clothesshop.model
 
+
+// todo #13 rename (use new class in data module)
 data class Product(
     val image: String? = "",
     val name: String? = "",

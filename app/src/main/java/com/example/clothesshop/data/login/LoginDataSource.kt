@@ -13,10 +13,13 @@ import javax.inject.Inject
 
 class LoginDataSource @Inject constructor(private val userDataSource: UserDataSource) {
     private lateinit var auth: FirebaseAuth
+
+    // todo #3 return flow
     suspend  fun  login(username: String, password: String): Result<LoggedInUser> {
         try {
             auth = Firebase.auth
             auth.signInWithEmailAndPassword(username,password)
+            // todo #2 remove delay
             delay(1000L)
             val user= auth.currentUser
             if(user != null) {
@@ -41,6 +44,7 @@ class LoginDataSource @Inject constructor(private val userDataSource: UserDataSo
         }
     }
 
+    // todo #4 add logout use data
     fun logout() {
         // TODO: revoke authentication
     }

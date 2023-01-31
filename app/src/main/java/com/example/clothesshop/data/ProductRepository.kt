@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import java.lang.Exception
 
+// todo #7 create repo and source
 class ProductRepository(val path: String="") {
 
     fun getProducts(path: String) : Flow<Resource<Product>> = callbackFlow  {
