@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+// todo #6 create repo and source
 class OrderRepository {
 
     private lateinit var auth: FirebaseAuth

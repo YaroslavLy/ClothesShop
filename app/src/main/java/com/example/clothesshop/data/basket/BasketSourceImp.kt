@@ -33,7 +33,7 @@ class BasketSourceImp @Inject constructor(private val userDataSource : UserDataS
                             image = item.image,
                             name = item.name,
                             price = item.price,
-                            code = item.code,//get key
+                            code = item.code,
                             in_bascked = item.in_bascked,
                             type = item.type,
                             description = item.description
@@ -61,11 +61,12 @@ class BasketSourceImp @Inject constructor(private val userDataSource : UserDataS
         val fbDB = FirebaseDatabase.getInstance().getReference("Basket/$userId")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var count = dataSnapshot.childrenCount
+                val count = dataSnapshot.childrenCount
 
                 trySend(count.toInt()).isSuccess
             }
 
+            // todo #1 add send error
             override fun onCancelled(databaseError: DatabaseError) {
                 //trySend(Result.Error(databaseError.toException())).isFailure
             }

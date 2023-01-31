@@ -19,6 +19,10 @@ class BasketViewModel @Inject constructor(private val basketRepository: BasketRe
     private val _tabsForm = MutableLiveData<Int>()
     val tabsFormState: LiveData<Int> = _tabsForm
 
+    //todo #20 replace use stateFlow
+    //todo #21 add state loading, error
+    //todo #22 use dataBinding
+
     init {
         viewModelScope.launch {
             basketRepository.getCountProductsInBasket().collect { count ->

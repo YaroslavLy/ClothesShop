@@ -8,12 +8,11 @@ import javax.inject.Inject
 
 class BasketRepository @Inject constructor(private val basketSource: BasketSource) {
 
-    fun getProducts() : Flow<Result<ProductBasket>> = basketSource.getProducts()
+    fun getProducts(): Flow<Result<ProductBasket>> = basketSource.getProducts()
 
-    fun getCountProductsInBasket():Flow<Int> = basketSource.getCountProductsInBasket()
+    fun getCountProductsInBasket(): Flow<Int> = basketSource.getCountProductsInBasket()
 
-    fun removeProductInBasket(productBasket: ProductBasket){
+    fun removeProductInBasket(productBasket: ProductBasket) =
         basketSource.removeProductInBasket(productBasket)
-    }
 
 }
